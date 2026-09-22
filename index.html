@@ -136,7 +136,7 @@
   </div>
 
   <div class="reveal" id="reveal">
-    <div class="idle" id="revealIdle">Tap the big button<br>to thank God! 🙏</div>
+    <div class="idle" id="revealIdle">Tap the button — or say<br>“Thank You” — to meet a name of God! 🙏</div>
     <div class="hide" id="revealShow">
       <div class="pre">God is called…</div>
       <div class="nm" id="revNm"></div>
@@ -259,9 +259,17 @@ var KIDS_NAMES = [{"n":"I AM THAT I AM","r":"Exodus 3:14"},{"n":"I Am","r":"John
     document.getElementById("readTog").classList.toggle("on", !!S.read);
   }
 
+  var speaking=false, speakTimer=null;
   function speak(txt){
     if(!S.read) return;
-    try{ if(window.speechSynthesis){ speechSynthesis.cancel(); var u=new SpeechSynthesisUtterance(txt); u.rate=.9; u.pitch=1.1; speechSynthesis.speak(u); } }catch(e){}
+    try{ if(window.speechSynthesis){
+      speechSynthesis.cancel();
+      var u=new SpeechSynthesisUtterance(txt); u.rate=.9; u.pitch=1.1;
+      speaking=true; if(speakTimer) clearTimeout(speakTimer);
+      u.onend=function(){ speaking=false; }; u.onerror=function(){ speaking=false; };
+      speakTimer=setTimeout(function(){ speaking=false; },3500);   // safety, in case onend never fires
+      speechSynthesis.speak(u);
+    } }catch(e){ speaking=false; }
   }
 
   function revealName(nm){
@@ -370,12 +378,12 @@ var KIDS_NAMES = [{"n":"I AM THAT I AM","r":"Exodus 3:14"},{"n":"I Am","r":"John
   // ---------- voice: hear "thank you" ----------
   var recog=null, listening=false, restartOK=false, seen={}, heardTimer=null;
   var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  var HEAR=["thank you","thankyou","thank u","thanks"];
+  var HEAR=["thank you","thankyou","thank u"];
   function norm(s){ return (" "+String(s).toLowerCase()+" ").replace(/[^a-z\s]/g," ").replace(/\s+/g," "); }
   function dropLast(p){ var t=p.replace(/^\s+|\s+$/g,""); var i=t.lastIndexOf(" "); return " "+(i>-1?t.slice(0,i):"")+" "; }
   function countOcc(text){ var n=0; for(var j=0;j<HEAR.length;j++){ var key=" "+HEAR[j]+" ",idx=text.indexOf(key),g=0; while(idx>-1&&g<200){ n++; idx=text.indexOf(key,idx+key.length-1); g++; } } return n; }
   var elHeard=document.getElementById("heard");
-  function showHeard(txt){ if(!listening){ elHeard.textContent=""; elHeard.classList.remove("show"); return; } txt=(txt||"").replace(/\s+/g," ").trim(); var w=txt.split(" "); if(w.length>6) txt="… "+w.slice(-6).join(" "); elHeard.textContent=txt?("“"+txt+"”"):"…I'm listening!"; elHeard.classList.add("show"); if(heardTimer)clearTimeout(heardTimer); heardTimer=setTimeout(function(){ if(listening) elHeard.textContent="…I'm listening!"; },1500); }
+  function showHeard(txt){ if(!listening){ elHeard.textContent=""; elHeard.classList.remove("show"); return; } txt=(txt||"").replace(/\s+/g," ").trim(); var w=txt.split(" "); if(w.length>6) txt="… "+w.slice(-6).join(" "); elHeard.textContent=txt?("“"+txt+"”"):"…say “Thank You”!"; elHeard.classList.add("show"); if(heardTimer)clearTimeout(heardTimer); heardTimer=setTimeout(function(){ if(listening) elHeard.textContent="…say “Thank You”!"; },1500); }
 
   window.toggleVoice=function(){
     if(!SR){ alert("Voice isn't available in this browser. Please open it in Chrome, or Safari on an iPhone, and allow the microphone. Tapping the big button always works!"); return; }
@@ -388,6 +396,7 @@ var KIDS_NAMES = [{"n":"I AM THAT I AM","r":"Exodus 3:14"},{"n":"I Am","r":"John
         var start=(typeof e.resultIndex==="number")?e.resultIndex:0;
         for(var i=start;i<e.results.length;i++){
           var res=e.results[i], raw=(res[0]&&res[0].transcript)||"", isF=!!res.isFinal;
+          if(speaking){ continue; }                        // don't count while the app is reading a name aloud
           showHeard(raw);
           var text=isF?norm(raw):dropLast(norm(raw));
           var occ=countOcc(text), had=seen[i]||0;
@@ -413,7 +422,7 @@ var KIDS_NAMES = [{"n":"I AM THAT I AM","r":"Exodus 3:14"},{"n":"I Am","r":"John
   document.addEventListener("visibilitychange",function(){ if(!document.hidden && listening){ try{ if("wakeLock" in navigator){ navigator.wakeLock.request("screen").then(function(w){ wakeLock=w; }).catch(function(){}); } }catch(e){} } });
   if(!SR){ document.getElementById("voiceTog").style.opacity=".6"; }
 
-  window.toggleRead=function(){ S.read=!S.read; save(K.read,S.read); refresh(); if(S.read) speak("Thank you God"); };
+  window.toggleRead=function(){ S.read=!S.read; save(K.read,S.read); refresh(); if(S.read) speak("God is good"); };
 
   // init
   refresh();
