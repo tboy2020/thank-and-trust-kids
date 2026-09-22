@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FFC53D">
+<title>Thank You, God! — for Kids</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Fraunces:ital,opsz,wght@1,9..144,500&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sky:#bfe0ff; --sky2:#eaf6ff; --sun:#FFC53D; --sun2:#F59E0B;
+    --grass:#33b98f; --grass2:#2aa079; --ink:#233a5e; --cream:#FFFDF6;
+    --pink:#FF8FB1; --line:rgba(35,58,94,.14);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Inter',system-ui,sans-serif;color:var(--ink);
+    background:linear-gradient(180deg,var(--sky) 0%, var(--sky2) 34%, var(--cream) 100%);
+    min-height:100vh;overflow-x:hidden;
+    padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  .sun{position:fixed;top:-70px;right:-40px;width:200px;height:200px;border-radius:50%;
+    background:radial-gradient(circle at 40% 40%,#FFE08A,var(--sun) 60%,var(--sun2));
+    box-shadow:0 0 60px rgba(245,158,11,.5);opacity:.85;z-index:0;pointer-events:none;}
+  .wrap{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:16px 16px 40px;}
+
+  header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:6px 2px 2px;}
+  .title{font-family:'Baloo 2',cursive;font-weight:800;font-size:26px;line-height:1;color:var(--ink);}
+  .title .em{color:var(--sun2);}
+  .streak{font-family:'Baloo 2',cursive;font-weight:700;font-size:14px;color:#fff;background:linear-gradient(180deg,#ff9a5a,#ff6f61);
+    border-radius:999px;padding:6px 12px;box-shadow:0 6px 14px rgba(255,111,97,.35);white-space:nowrap;}
+  .gear{font-size:22px;background:#fff;border:1px solid var(--line);border-radius:50%;width:42px;height:42px;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.08);flex:0 0 auto;}
+  .gear:active{transform:scale(.94);}
+
+  .verse{font-family:'Fraunces',serif;font-style:italic;text-align:center;color:#3f5170;font-size:15px;margin:6px 6px 14px;line-height:1.4;}
+
+  /* progress */
+  .prog-card{background:#fff;border-radius:26px;padding:18px 18px 16px;box-shadow:0 14px 30px rgba(35,58,94,.14);text-align:center;}
+  .prog-top{font-family:'Baloo 2',cursive;font-weight:700;color:var(--grass2);font-size:15px;letter-spacing:.02em;}
+  .prog-num{font-family:'Baloo 2',cursive;font-weight:800;font-size:52px;line-height:1;color:var(--ink);margin:2px 0 2px;}
+  .prog-num b{color:var(--sun2);}
+  .prog-num small{font-size:24px;color:#9aa7bd;font-weight:700;}
+  .bar{height:18px;background:#eef2f7;border-radius:999px;overflow:hidden;margin:12px 4px 6px;box-shadow:inset 0 2px 4px rgba(0,0,0,.06);}
+  .bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--grass),var(--sun));transition:width .5s cubic-bezier(.2,.9,.3,1.2);}
+  .goalline{font-family:'Baloo 2',cursive;font-weight:600;font-size:13px;color:#8090a8;margin-top:4px;}
+
+  /* reveal */
+  .reveal{background:linear-gradient(180deg,#fffdf4,#fff);border:2px solid #ffe6a8;border-radius:26px;
+    padding:22px 18px;text-align:center;margin-top:14px;box-shadow:0 14px 30px rgba(245,158,11,.16);position:relative;overflow:hidden;min-height:130px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .reveal .pre{font-family:'Baloo 2',cursive;font-weight:700;color:var(--grass2);font-size:15px;text-transform:uppercase;letter-spacing:.08em;}
+  .reveal .nm{font-family:'Baloo 2',cursive;font-weight:800;font-size:30px;line-height:1.05;color:var(--sun2);margin:8px 6px 4px;}
+  .reveal .rf{font-family:'Fraunces',serif;font-style:italic;color:#8090a8;font-size:13px;}
+  .reveal.pop{animation:pop .45s cubic-bezier(.2,.9,.3,1.4);}
+  @keyframes pop{0%{transform:scale(.85);opacity:.4;}60%{transform:scale(1.04);}100%{transform:scale(1);opacity:1;}}
+  .reveal .idle{font-family:'Baloo 2',cursive;font-weight:700;color:#9aa7bd;font-size:19px;line-height:1.3;}
+
+  /* big button */
+  .bigbtn{margin-top:16px;width:100%;border:0;border-radius:26px;padding:26px 20px;cursor:pointer;color:#5a3d00;
+    font-family:'Baloo 2',cursive;font-weight:800;letter-spacing:.02em;font-size:30px;
+    background:linear-gradient(180deg,#FFDD73,var(--sun) 60%,var(--sun2));
+    box-shadow:0 12px 0 #d98a00, 0 18px 28px rgba(245,158,11,.4);transition:transform .08s, box-shadow .08s;}
+  .bigbtn:active{transform:translateY(7px);box-shadow:0 5px 0 #d98a00, 0 10px 18px rgba(245,158,11,.4);}
+  .bigbtn .hand{font-size:34px;}
+
+  .toggles{display:flex;gap:10px;margin-top:14px;}
+  .tog{flex:1;font-family:'Baloo 2',cursive;font-weight:700;font-size:15px;border:2px solid var(--line);border-radius:18px;
+    padding:13px 10px;cursor:pointer;background:#fff;color:var(--ink);display:flex;align-items:center;justify-content:center;gap:7px;transition:.15s;}
+  .tog.on{background:linear-gradient(180deg,var(--grass),var(--grass2));color:#fff;border-color:transparent;box-shadow:0 6px 14px rgba(51,185,143,.35);}
+  .tog:active{transform:scale(.98);}
+
+  .heard{text-align:center;font-family:'Fraunces',serif;font-style:italic;color:var(--grass2);font-size:15px;margin-top:10px;min-height:20px;opacity:0;transition:opacity .2s;}
+  .heard.show{opacity:1;}
+
+  .share{margin-top:16px;text-align:center;}
+  .sharebtn{display:inline-flex;align-items:center;gap:8px;font-family:'Baloo 2',cursive;font-weight:700;font-size:15px;color:#fff;
+    border:0;border-radius:18px;padding:13px 22px;cursor:pointer;background:linear-gradient(180deg,#25D366,#12a150);box-shadow:0 8px 18px rgba(18,140,80,.3);}
+  .sharebtn:active{transform:scale(.98);}
+  .sharebtn svg{width:19px;height:19px;fill:#fff;}
+
+  footer{text-align:center;margin-top:22px;}
+  footer .g{font-family:'Fraunces',serif;font-style:italic;color:var(--grass2);font-size:15px;}
+  footer .a{font-family:'Baloo 2',cursive;letter-spacing:.2em;font-size:11px;color:#9aa7bd;margin-top:4px;}
+
+  /* modal + overlay */
+  .scrim{position:fixed;inset:0;background:rgba(20,32,54,.5);z-index:40;display:none;align-items:center;justify-content:center;padding:18px;}
+  .scrim.show{display:flex;}
+  .modal{background:#fff;border-radius:24px;padding:20px;max-width:400px;width:100%;box-shadow:0 20px 50px rgba(0,0,0,.35);}
+  .modal h2{font-family:'Baloo 2',cursive;font-weight:800;font-size:22px;margin:0 0 4px;color:var(--ink);}
+  .modal p{font-size:14px;color:#5f6f88;margin:0 0 14px;line-height:1.4;}
+  .modal label{font-family:'Baloo 2',cursive;font-weight:700;font-size:14px;color:var(--grass2);display:block;margin:14px 0 8px;}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{font-family:'Baloo 2',cursive;font-weight:700;font-size:16px;border:2px solid var(--line);border-radius:14px;padding:11px 0;cursor:pointer;background:#fff;color:var(--ink);flex:1 0 26%;text-align:center;}
+  .chip.sel{background:linear-gradient(180deg,#FFDD73,var(--sun));border-color:transparent;color:#5a3d00;}
+  .modal input{width:100%;border:2px solid var(--line);border-radius:14px;padding:13px;font-family:'Baloo 2',cursive;font-size:17px;color:var(--ink);}
+  .modal .row{display:flex;gap:10px;margin-top:18px;}
+  .mbtn{flex:1;font-family:'Baloo 2',cursive;font-weight:800;font-size:16px;border:0;border-radius:16px;padding:14px;cursor:pointer;}
+  .mbtn.go{color:#5a3d00;background:linear-gradient(180deg,#FFDD73,var(--sun2));box-shadow:0 6px 14px rgba(245,158,11,.3);}
+  .mbtn.ghost{background:#eef2f7;color:#5f6f88;}
+  .mbtn.danger{background:#ffe9e6;color:#c0392b;}
+  .hide{display:none!important;}
+
+  #celebrate{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:22px;text-align:center;
+    background:radial-gradient(circle at 50% 30%,rgba(255,221,115,.96),rgba(255,197,61,.96));}
+  #celebrate.show{display:flex;flex-direction:column;}
+  #celebrate .big{font-family:'Baloo 2',cursive;font-weight:800;font-size:40px;color:#7a4e00;line-height:1.05;}
+  #celebrate .msg{font-family:'Baloo 2',cursive;font-weight:700;font-size:20px;color:#5a3d00;margin-top:12px;max-width:400px;line-height:1.35;}
+  #celebrate .st{font-family:'Baloo 2',cursive;font-weight:800;font-size:22px;color:#c0392b;margin-top:14px;}
+  #celebrate .cbtn{margin-top:22px;font-family:'Baloo 2',cursive;font-weight:800;font-size:18px;color:#fff;border:0;border-radius:20px;padding:15px 30px;cursor:pointer;background:linear-gradient(180deg,var(--grass),var(--grass2));box-shadow:0 8px 18px rgba(51,185,143,.4);}
+  canvas#confetti{position:fixed;inset:0;pointer-events:none;z-index:55;}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important;}}
+</style>
+</head>
+<body>
+<div class="sun"></div>
+<div class="wrap">
+  <header>
+    <div class="title">Thank You<span class="em">,</span> God!</div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div class="streak hide" id="streakChip">🔥 <span id="streakN">0</span></div>
+      <div class="gear" onclick="openParent()" title="Grown-ups">⚙️</div>
+    </div>
+  </header>
+
+  <p class="verse">“Out of the mouth of babes and sucklings thou hast perfected praise.” — Matthew 21:16</p>
+
+  <div class="prog-card">
+    <div class="prog-top" id="progName">Today's thank-yous</div>
+    <div class="prog-num"><b id="todayN">0</b><small> / <span id="targetN">20</span></small></div>
+    <div class="bar"><i id="bar"></i></div>
+    <div class="goalline" id="goalLine">Say or tap “Thank You” to meet God's names!</div>
+  </div>
+
+  <div class="reveal" id="reveal">
+    <div class="idle" id="revealIdle">Tap the big button<br>to thank God! 🙏</div>
+    <div class="hide" id="revealShow">
+      <div class="pre">God is called…</div>
+      <div class="nm" id="revNm"></div>
+      <div class="rf" id="revRf"></div>
+    </div>
+  </div>
+
+  <button class="bigbtn" id="thankBtn" onclick="thankYou('tap')"><span class="hand">🙏</span> THANK YOU</button>
+
+  <div class="toggles">
+    <button class="tog" id="voiceTog" onclick="toggleVoice()">🎤 Listen</button>
+    <button class="tog on" id="readTog" onclick="toggleRead()">🔊 Read aloud</button>
+  </div>
+  <div class="heard" id="heard"></div>
+
+  <div class="share">
+    <button class="sharebtn" onclick="shareWhatsApp()">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20Zm4.4-5.6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.2-2.8c-.1-.2 0-.4.1-.5l.4-.5c.1-.1.1-.3 0-.4l-.7-1.7c-.2-.4-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3-.6.6-.9 1.4-.8 2.3.2 1.3.9 2.4 2 3.4a8 8 0 0 0 3.6 2c.9.2 1.6.1 2.2-.2.5-.3.9-.9 1-1.3.1-.4.1-.7 0-.8Z"/></svg>
+      Share with a friend
+    </button>
+  </div>
+
+  <footer><div class="g">Glory to God alone</div><div class="a">AMHG</div></footer>
+</div>
+
+<!-- Parent modal -->
+<div class="scrim" id="parentScrim">
+  <div class="modal">
+    <div id="gate">
+      <h2>Grown-ups only 🔒</h2>
+      <p>Quick question so little hands don't change the settings:</p>
+      <label id="gateQ">What is 6 + 7?</label>
+      <input id="gateA" type="tel" inputmode="numeric" placeholder="Type the answer">
+      <div class="row">
+        <button class="mbtn ghost" onclick="closeParent()">Cancel</button>
+        <button class="mbtn go" onclick="checkGate()">OK</button>
+      </div>
+    </div>
+    <div id="settings" class="hide">
+      <h2>Set the daily goal</h2>
+      <p>How many “Thank You”s to God each day? Each one meets one of His 1,000 names.</p>
+      <label>Daily goal</label>
+      <div class="chips" id="targetChips"></div>
+      <label>Child's name (optional)</label>
+      <input id="kidName" type="text" maxlength="16" placeholder="e.g. Anu">
+      <div class="row">
+        <button class="mbtn danger" onclick="resetProgress()">Reset progress</button>
+        <button class="mbtn go" onclick="saveSettings()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Celebration -->
+<div id="celebrate">
+  <div class="big">🎉 YOU DID IT! 🎉</div>
+  <div class="msg" id="celMsg"></div>
+  <div class="st hide" id="celStreak"></div>
+  <button class="cbtn" onclick="closeCelebrate()">Keep going ✨</button>
+</div>
+
+<canvas id="confetti"></canvas>
+
+<script>
+var KIDS_NAMES = [{"n":"I AM THAT I AM","r":"Exodus 3:14"},{"n":"I Am","r":"John 8:58"},{"n":"God","r":"John 1:1"},{"n":"God Manifest in the Flesh","r":"1 Timothy 3:16"},{"n":"Emmanuel","r":"Matthew 1:23"},{"n":"God With Us","r":"Matthew 1:23"},{"n":"The Mighty God","r":"Isaiah 9:6"},{"n":"The Everlasting Father","r":"Isaiah 9:6"},{"n":"The Great God","r":"Titus 2:13"},{"n":"God Our Saviour","r":"1 Timothy 2:3"},{"n":"The True God","r":"1 John 5:20"},{"n":"The Only Wise God","r":"Jude 1:25"},{"n":"The Blessed God","r":"1 Timothy 1:11"},{"n":"Son of the Living God","r":"Matthew 16:16"},{"n":"The Image of the Invisible God","r":"Colossians 1:15"},{"n":"The Express Image of His Person","r":"Hebrews 1:3"},{"n":"The Brightness of His Glory","r":"Hebrews 1:3"},{"n":"Equal With God","r":"Philippians 2:6"},{"n":"In the Form of God","r":"Philippians 2:6"},{"n":"The Fulness of the Godhead","r":"Colossians 2:9"},{"n":"God Blessed For Ever","r":"Romans 9:5"},{"n":"My Lord and My God","r":"John 20:28"},{"n":"The Lord God Almighty","r":"Revelation 15:3"},{"n":"The Almighty","r":"Revelation 1:8"},{"n":"The Lord God Omnipotent","r":"Revelation 19:6"},{"n":"King Eternal","r":"1 Timothy 1:17"},{"n":"Immortal","r":"1 Timothy 1:17"},{"n":"The Everlasting God","r":"Isaiah 40:28"},{"n":"The Eternal God","r":"Deuteronomy 33:27"},{"n":"The Holy One","r":"Psalm 16:10"},{"n":"The Holy One of Israel","r":"Isaiah 41:14"},{"n":"The Holy One of God","r":"Mark 1:24"},{"n":"The Just One","r":"Acts 7:52"},{"n":"The Holy One and the Just","r":"Acts 3:14"},{"n":"Holy, Holy, Holy","r":"Isaiah 6:3"},{"n":"The LORD of Hosts","r":"Isaiah 54:5"},{"n":"The King of Glory","r":"Psalm 24:7"},{"n":"The Most High","r":"Psalm 91:1"},{"n":"The Highest","r":"Luke 1:32"},{"n":"The Lord From Heaven","r":"1 Corinthians 15:47"},{"n":"He That Filleth All in All","r":"Ephesians 1:23"},{"n":"Before All Things","r":"Colossians 1:17"},{"n":"The Same Yesterday, To Day, and For Ever","r":"Hebrews 13:8"},{"n":"He That Searcheth the Reins and Hearts","r":"Revelation 2:23"},{"n":"Thou Knowest All Things","r":"John 21:17"},{"n":"Wonderful","r":"Isaiah 9:6"},{"n":"The Lord Our God","r":"Mark 12:29"},{"n":"The Only Begotten of the Father","r":"John 1:14"},{"n":"The LORD JEHOVAH","r":"Isaiah 26:4"},{"n":"Everlasting Strength","r":"Isaiah 26:4"},{"n":"Alpha and Omega","r":"Revelation 1:8"},{"n":"The Beginning and the Ending","r":"Revelation 1:8"},{"n":"The First and the Last","r":"Revelation 1:11"},{"n":"Which Is, and Which Was, and Which Is To Come","r":"Revelation 1:8"},{"n":"The Beginning of the Creation of God","r":"Revelation 3:14"},{"n":"The Ancient of Days","r":"Daniel 7:9"},{"n":"Before Abraham Was","r":"John 8:58"},{"n":"In the Beginning Was the Word","r":"John 1:1"},{"n":"From Everlasting","r":"Micah 5:2"},{"n":"Whose Goings Forth Have Been From of Old","r":"Micah 5:2"},{"n":"The Everlasting King","r":"Jeremiah 10:10"},{"n":"The LORD Sitteth King For Ever","r":"Psalm 29:10"},{"n":"The Everlasting Name","r":"Isaiah 63:12"},{"n":"Thy Years Shall Not Fail","r":"Hebrews 1:12"},{"n":"Thou Art the Same","r":"Psalm 102:27"},{"n":"Jesus Christ the Same For Ever","r":"Hebrews 13:8"},{"n":"He That Liveth","r":"Revelation 1:18"},{"n":"Alive For Evermore","r":"Revelation 1:18"},{"n":"The Ever Living Intercessor","r":"Hebrews 7:25"},{"n":"An Unchangeable Priesthood","r":"Hebrews 7:24"},{"n":"A Priest For Ever","r":"Hebrews 7:17"},{"n":"An Everlasting Light","r":"Isaiah 60:19"},{"n":"Everlasting Joy","r":"Isaiah 35:10"},{"n":"Everlasting Righteousness","r":"Daniel 9:24"},{"n":"Everlasting Salvation","r":"Isaiah 45:17"},{"n":"The Everlasting Covenant","r":"Hebrews 13:20"},{"n":"The Everlasting Kingdom","r":"2 Peter 1:11"},{"n":"An Everlasting Dominion","r":"Daniel 7:14"},{"n":"Everlasting Consolation","r":"2 Thessalonians 2:16"},{"n":"Everlasting Love","r":"Jeremiah 31:3"},{"n":"The Everlasting Arms","r":"Deuteronomy 33:27"},{"n":"Eternal Life","r":"1 John 5:20"},{"n":"The Author of Eternal Salvation","r":"Hebrews 5:9"},{"n":"Eternal Redemption","r":"Hebrews 9:12"},{"n":"The Eternal Inheritance","r":"Hebrews 9:15"},{"n":"The Eternal Spirit","r":"Hebrews 9:14"},{"n":"Eternal Glory","r":"1 Peter 5:10"},{"n":"An Eternal Weight of Glory","r":"2 Corinthians 4:17"},{"n":"The Eternal Purpose","r":"Ephesians 3:11"},{"n":"The Word of Life","r":"1 John 1:1"},{"n":"That Which Was From the Beginning","r":"1 John 1:1"},{"n":"The Firstborn of Every Creature","r":"Colossians 1:15"},{"n":"Heir of All Things","r":"Hebrews 1:2"},{"n":"By Whom He Made the Worlds","r":"Hebrews 1:2"},{"n":"Foreordained Before the Foundation of the World","r":"1 Peter 1:20"},{"n":"The Lamb Slain From the Foundation of the World","r":"Revelation 13:8"},{"n":"The Everlasting Gospel","r":"Revelation 14:6"},{"n":"The Power of an Endless Life","r":"Hebrews 7:16"},{"n":"Who Only Hath Immortality","r":"1 Timothy 6:16"},{"n":"Whose Kingdom Shall Not Be Destroyed","r":"Daniel 7:14"},{"n":"The Word","r":"John 1:1"},{"n":"The Word Was God","r":"John 1:1"},{"n":"The Word Made Flesh","r":"John 1:14"},{"n":"The Word of God","r":"Revelation 19:13"},{"n":"The Faithful Word","r":"Titus 1:9"},{"n":"The Truth","r":"John 14:6"},{"n":"Full of Grace and Truth","r":"John 1:14"},{"n":"Grace and Truth Came by Jesus Christ","r":"John 1:17"},{"n":"The Spirit of Truth","r":"John 16:13"},{"n":"The Faithful Witness","r":"Revelation 1:5"},{"n":"The True and Faithful Witness","r":"Revelation 3:14"},{"n":"The Amen","r":"Revelation 3:14"},{"n":"He That Is True","r":"Revelation 3:7"},{"n":"Holy and True","r":"Revelation 6:10"},{"n":"True and Righteous","r":"Revelation 19:2"},{"n":"Faithful and True","r":"Revelation 19:11"},{"n":"The Testimony of Jesus","r":"Revelation 19:10"},{"n":"The Spirit of Prophecy","r":"Revelation 19:10"},{"n":"A Teacher Come From God","r":"John 3:2"},{"n":"Master","r":"Matthew 23:8"},{"n":"Rabbi","r":"John 1:38"},{"n":"Rabboni","r":"John 20:16"},{"n":"Good Master","r":"Mark 10:17"},{"n":"A Great Prophet","r":"Luke 7:16"},{"n":"That Prophet","r":"John 1:21"},{"n":"A Prophet Mighty in Deed and Word","r":"Luke 24:19"},{"n":"Jesus the Prophet of Nazareth","r":"Matthew 21:11"},{"n":"The Wisdom of God","r":"1 Corinthians 1:24"},{"n":"Made Unto Us Wisdom","r":"1 Corinthians 1:30"},{"n":"In Whom Are Hid All the Treasures of Wisdom","r":"Colossians 2:3"},{"n":"Counsellor","r":"Isaiah 9:6"},{"n":"Wonderful in Counsel","r":"Isaiah 28:29"},{"n":"The Spirit of Counsel and Might","r":"Isaiah 11:2"},{"n":"The Spirit of Wisdom and Understanding","r":"Isaiah 11:2"},{"n":"Excellent in Working","r":"Isaiah 28:29"},{"n":"The Sower","r":"Matthew 13:37"},{"n":"Anointed to Preach the Gospel","r":"Luke 4:18"},{"n":"Good Tidings Unto the Meek","r":"Isaiah 61:1"},{"n":"His Voice as the Sound of Many Waters","r":"Revelation 1:15"},{"n":"The Glory of the God of Israel","r":"Ezekiel 43:2"},{"n":"A Sharp Twoedged Sword","r":"Revelation 1:16"},{"n":"The Sword of the Spirit","r":"Ephesians 6:17"},{"n":"Quick and Powerful","r":"Hebrews 4:12"},{"n":"A More Sure Word of Prophecy","r":"2 Peter 1:19"},{"n":"The Word Is Nigh Thee","r":"Romans 10:8"},{"n":"The Word of Reconciliation","r":"2 Corinthians 5:19"},{"n":"The Engrafted Word","r":"James 1:21"},{"n":"The Word of His Power","r":"Hebrews 1:3"},{"n":"The Word of Truth","r":"2 Timothy 2:15"},{"n":"The Words of Eternal Life","r":"John 6:68"},{"n":"The Light of the World","r":"John 8:12"},{"n":"The True Light","r":"John 1:9"},{"n":"The Light of Men","r":"John 1:4"},{"n":"The Light of Life","r":"John 8:12"},{"n":"A Light to Lighten the Gentiles","r":"Luke 2:32"},{"n":"The Glory of Thy People Israel","r":"Luke 2:32"},{"n":"A Light of the Gentiles","r":"Isaiah 42:6"},{"n":"A Great Light","r":"Isaiah 9:2"},{"n":"The Dayspring From on High","r":"Luke 1:78"},{"n":"The Day Star","r":"2 Peter 1:19"},{"n":"The Bright and Morning Star","r":"Revelation 22:16"},{"n":"A Star Out of Jacob","r":"Numbers 24:17"},{"n":"The Sun of Righteousness","r":"Malachi 4:2"},{"n":"Healing in His Wings","r":"Malachi 4:2"},{"n":"The Light Shineth in Darkness","r":"John 1:5"},{"n":"The Lamb Is the Light Thereof","r":"Revelation 21:23"},{"n":"The Glory of God Did Lighten It","r":"Revelation 21:23"},{"n":"Thy Everlasting Light","r":"Isaiah 60:19"},{"n":"Thy God Thy Glory","r":"Isaiah 60:19"},{"n":"The Brightness of Thy Rising","r":"Isaiah 60:3"},{"n":"The Glory of God in the Face of Jesus Christ","r":"2 Corinthians 4:6"},{"n":"The Light of the Glorious Gospel","r":"2 Corinthians 4:4"},{"n":"The Lord of Glory","r":"1 Corinthians 2:8"},{"n":"The King of Glory, Strong and Mighty","r":"Psalm 24:8"},{"n":"Arise, Shine, For Thy Light Is Come","r":"Isaiah 60:1"},{"n":"Crowned With Glory and Honour","r":"Hebrews 2:9"},{"n":"The Glory Which I Had With Thee","r":"John 17:5"},{"n":"Received Up Into Glory","r":"1 Timothy 3:16"},{"n":"The Hope of Glory","r":"Colossians 1:27"},{"n":"The Riches of His Glory","r":"Romans 9:23"},{"n":"The Father of Glory","r":"Ephesians 1:17"},{"n":"The Excellent Glory","r":"2 Peter 1:17"},{"n":"His Countenance as the Sun","r":"Revelation 1:16"},{"n":"His Raiment White as the Light","r":"Matthew 17:2"},{"n":"A Shining of a Flaming Fire","r":"Isaiah 4:5"},{"n":"A Pillar of Fire","r":"Exodus 13:21"},{"n":"A Pillar of a Cloud","r":"Exodus 13:21"},{"n":"The Cloud of the LORD","r":"Exodus 40:38"},{"n":"A Consuming Fire","r":"Hebrews 12:29"},{"n":"His Eyes as a Flame of Fire","r":"Revelation 1:14"},{"n":"His Feet Like Unto Fine Brass","r":"Revelation 1:15"},{"n":"His Head and His Hairs White Like Wool","r":"Revelation 1:14"},{"n":"Clothed With Honour and Majesty","r":"Psalm 104:1"},{"n":"The Majesty on High","r":"Hebrews 1:3"},{"n":"The Beauty of Holiness","r":"Psalm 29:2"},{"n":"Fairer Than the Children of Men","r":"Psalm 45:2"},{"n":"The Chiefest Among Ten Thousand","r":"Song of Solomon 5:10"},{"n":"Altogether Lovely","r":"Song of Solomon 5:16"},{"n":"White and Ruddy","r":"Song of Solomon 5:10"},{"n":"A Diadem of Beauty","r":"Isaiah 28:5"},{"n":"The Lamb of God","r":"John 1:29"},{"n":"Behold the Lamb of God","r":"John 1:36"},{"n":"A Lamb Without Blemish and Without Spot","r":"1 Peter 1:19"},{"n":"The Precious Blood of Christ","r":"1 Peter 1:19"},{"n":"Christ Our Passover","r":"1 Corinthians 5:7"},{"n":"The Lamb That Was Slain","r":"Revelation 5:12"},{"n":"The Lamb in the Midst of the Throne","r":"Revelation 7:17"},{"n":"Worthy Is the Lamb","r":"Revelation 5:12"},{"n":"The Blood of the Lamb","r":"Revelation 12:11"},{"n":"The Marriage of the Lamb","r":"Revelation 19:7"},{"n":"The Lamb's Wife","r":"Revelation 21:9"},{"n":"The Lamb's Book of Life","r":"Revelation 21:27"},{"n":"The Throne of God and of the Lamb","r":"Revelation 22:3"},{"n":"Brought as a Lamb to the Slaughter","r":"Isaiah 53:7"},{"n":"He Opened Not His Mouth","r":"Isaiah 53:7"},{"n":"Wounded For Our Transgressions","r":"Isaiah 53:5"},{"n":"Bruised For Our Iniquities","r":"Isaiah 53:5"},{"n":"With His Stripes We Are Healed","r":"Isaiah 53:5"},{"n":"The Chastisement of Our Peace","r":"Isaiah 53:5"},{"n":"He Bare the Sin of Many","r":"Isaiah 53:12"},{"n":"Made Sin For Us","r":"2 Corinthians 5:21"},{"n":"Made a Curse For Us","r":"Galatians 3:13"},{"n":"A Man of Sorrows","r":"Isaiah 53:3"},{"n":"Acquainted With Grief","r":"Isaiah 53:3"},{"n":"Despised and Rejected of Men","r":"Isaiah 53:3"},{"n":"His Visage So Marred","r":"Isaiah 52:14"},{"n":"The Shepherd That Was Smitten","r":"Zechariah 13:7"},{"n":"Whom They Have Pierced","r":"Zechariah 12:10"},{"n":"They Shall Look on Him Whom They Pierced","r":"John 19:37"},{"n":"An Offering For Sin","r":"Isaiah 53:10"},{"n":"One Sacrifice For Sins For Ever","r":"Hebrews 10:12"},{"n":"An Offering and a Sacrifice to God","r":"Ephesians 5:2"},{"n":"A Sweetsmelling Savour","r":"Ephesians 5:2"},{"n":"The Propitiation For Our Sins","r":"1 John 2:2"},{"n":"Set Forth To Be a Propitiation","r":"Romans 3:25"},{"n":"The Blood of Sprinkling","r":"Hebrews 12:24"},{"n":"The Veil, That Is To Say, His Flesh","r":"Hebrews 10:20"},{"n":"A New and Living Way","r":"Hebrews 10:20"},{"n":"Lifted Up as the Serpent","r":"John 3:14"},{"n":"Lifted Up From the Earth","r":"John 12:32"},{"n":"A Corn of Wheat That Died","r":"John 12:24"},{"n":"Obedient Unto Death","r":"Philippians 2:8"},{"n":"The Death of the Cross","r":"Philippians 2:8"},{"n":"He Poured Out His Soul Unto Death","r":"Isaiah 53:12"},{"n":"Numbered With the Transgressors","r":"Isaiah 53:12"},{"n":"He Made Intercession For the Transgressors","r":"Isaiah 53:12"},{"n":"It Pleased the LORD To Bruise Him","r":"Isaiah 53:10"},{"n":"He Shall See His Seed","r":"Isaiah 53:10"},{"n":"The Travail of His Soul","r":"Isaiah 53:11"},{"n":"He Shall Bear Their Iniquities","r":"Isaiah 53:11"},{"n":"The Saviour","r":"Luke 2:11"},{"n":"Christ the Lord","r":"Luke 2:11"},{"n":"A Saviour, Jesus","r":"Acts 13:23"},{"n":"The Saviour of the World","r":"John 4:42"},{"n":"The Saviour of All Men","r":"1 Timothy 4:10"},{"n":"The Saviour of the Body","r":"Ephesians 5:23"},{"n":"Jesus","r":"Matthew 1:21"},{"n":"He Shall Save His People From Their Sins","r":"Matthew 1:21"},{"n":"A Prince and a Saviour","r":"Acts 5:31"},{"n":"The Captain of Their Salvation","r":"Hebrews 2:10"},{"n":"An Horn of Salvation","r":"Luke 1:69"},{"n":"My Salvation","r":"Isaiah 12:2"},{"n":"The God of My Salvation","r":"Psalm 18:46"},{"n":"The Rock of My Salvation","r":"Psalm 89:26"},{"n":"The Redeemer","r":"Isaiah 59:20"},{"n":"My Redeemer Liveth","r":"Job 19:25"},{"n":"The Redeemer of Israel","r":"Isaiah 49:7"},{"n":"Thy Redeemer, the Holy One of Israel","r":"Isaiah 41:14"},{"n":"Our Redeemer, the LORD of Hosts","r":"Isaiah 47:4"},{"n":"Redemption","r":"1 Corinthians 1:30"},{"n":"In Whom We Have Redemption","r":"Ephesians 1:7"},{"n":"The Forgiveness of Sins","r":"Ephesians 1:7"},{"n":"A Ransom For Many","r":"Matthew 20:28"},{"n":"A Ransom For All","r":"1 Timothy 2:6"},{"n":"Ye Are Bought With a Price","r":"1 Corinthians 6:20"},{"n":"He Gave Himself For Us","r":"Titus 2:14"},{"n":"To Redeem Us From All Iniquity","r":"Titus 2:14"},{"n":"He Loved Us and Washed Us","r":"Revelation 1:5"},{"n":"The Deliverer Out of Sion","r":"Romans 11:26"},{"n":"Who Delivered Us From So Great a Death","r":"2 Corinthians 1:10"},{"n":"Delivered Us From the Power of Darkness","r":"Colossians 1:13"},{"n":"Which Delivered Us From the Wrath To Come","r":"1 Thessalonians 1:10"},{"n":"Thy Kinsman","r":"Ruth 4:14"},{"n":"He That Sanctifieth","r":"Hebrews 2:11"},{"n":"Made Unto Us Sanctification","r":"1 Corinthians 1:30"},{"n":"Made Unto Us Righteousness","r":"1 Corinthians 1:30"},{"n":"THE LORD OUR RIGHTEOUSNESS","r":"Jeremiah 23:6"},{"n":"Christ Died For Us","r":"Romans 5:8"},{"n":"Reconciled by the Death of His Son","r":"Romans 5:10"},{"n":"By Whom We Have Received the Atonement","r":"Romans 5:11"},{"n":"One Mediator","r":"1 Timothy 2:5"},{"n":"The Man Christ Jesus","r":"1 Timothy 2:5"},{"n":"He Ever Liveth To Make Intercession","r":"Hebrews 7:25"},{"n":"Able To Save Them To the Uttermost","r":"Hebrews 7:25"},{"n":"An Advocate With the Father","r":"1 John 2:1"},{"n":"Jesus Christ the Righteous","r":"1 John 2:1"},{"n":"He Came To Seek and To Save That Which Was Lost","r":"Luke 19:10"},{"n":"Thou Hast Redeemed Us To God by Thy Blood","r":"Revelation 5:9"},{"n":"Neither Is There Salvation in Any Other","r":"Acts 4:12"},{"n":"The Grace of God That Bringeth Salvation","r":"Titus 2:11"},{"n":"The LORD Is My Shepherd","r":"Psalm 23:1"},{"n":"The Good Shepherd","r":"John 10:11"},{"n":"That Great Shepherd of the Sheep","r":"Hebrews 13:20"},{"n":"The Chief Shepherd","r":"1 Peter 5:4"},{"n":"The Shepherd and Bishop of Your Souls","r":"1 Peter 2:25"},{"n":"One Shepherd","r":"Ezekiel 34:23"},{"n":"The Shepherd of Israel","r":"Psalm 80:1"},{"n":"He Shall Feed His Flock","r":"Isaiah 40:11"},{"n":"He Shall Gather the Lambs With His Arm","r":"Isaiah 40:11"},{"n":"He Giveth His Life For the Sheep","r":"John 10:11"},{"n":"The Door of the Sheep","r":"John 10:7"},{"n":"The Door","r":"John 10:9"},{"n":"He Calleth His Own Sheep by Name","r":"John 10:3"},{"n":"He Goeth Before Them","r":"John 10:4"},{"n":"My Sheep Hear My Voice","r":"John 10:27"},{"n":"I Know My Sheep","r":"John 10:14"},{"n":"None Shall Pluck Them Out of My Hand","r":"John 10:28"},{"n":"He Maketh Me To Lie Down in Green Pastures","r":"Psalm 23:2"},{"n":"He Leadeth Me Beside the Still Waters","r":"Psalm 23:2"},{"n":"He Restoreth My Soul","r":"Psalm 23:3"},{"n":"He Leadeth Me in the Paths of Righteousness","r":"Psalm 23:3"},{"n":"Thy Rod and Thy Staff They Comfort Me","r":"Psalm 23:4"},{"n":"Thou Preparest a Table Before Me","r":"Psalm 23:5"},{"n":"My Cup Runneth Over","r":"Psalm 23:5"},{"n":"He Goeth After That Which Is Lost","r":"Luke 15:4"},{"n":"The Shepherd of the Other Sheep","r":"John 10:16"},{"n":"It Is Your Father's Good Pleasure To Give You the Kingdom","r":"Luke 12:32"},{"n":"Our Guide Even Unto Death","r":"Psalm 48:14"},{"n":"The LORD Shall Guide Thee Continually","r":"Isaiah 58:11"},{"n":"The Way","r":"John 14:6"},{"n":"The Way of Holiness","r":"Isaiah 35:8"},{"n":"The Path of Life","r":"Psalm 16:11"},{"n":"A Lamp Unto My Feet","r":"Psalm 119:105"},{"n":"A Light Unto My Path","r":"Psalm 119:105"},{"n":"The Strait Gate","r":"Matthew 7:14"},{"n":"The Narrow Way","r":"Matthew 7:14"},{"n":"A Leader and Commander To the People","r":"Isaiah 55:4"},{"n":"The Forerunner","r":"Hebrews 6:20"},{"n":"The Captain of the Host of the LORD","r":"Joshua 5:14"},{"n":"He Went Before Them by Day","r":"Exodus 13:21"},{"n":"The Angel of His Presence","r":"Isaiah 63:9"},{"n":"The Angel of the LORD","r":"Genesis 22:11"},{"n":"He That Keepeth Israel","r":"Psalm 121:4"},{"n":"The LORD Is Thy Keeper","r":"Psalm 121:5"},{"n":"Thy Shade Upon Thy Right Hand","r":"Psalm 121:5"},{"n":"He Shall Preserve Thy Going Out and Thy Coming In","r":"Psalm 121:8"},{"n":"The Strength of My Heart and My Portion","r":"Psalm 73:26"},{"n":"The Guide of My Youth","r":"Jeremiah 3:4"},{"n":"I Will Instruct Thee and Teach Thee","r":"Psalm 32:8"},{"n":"He Teacheth Sinners in the Way","r":"Psalm 25:8"},{"n":"KING OF KINGS","r":"Revelation 19:16"},{"n":"LORD OF LORDS","r":"Revelation 19:16"},{"n":"The Prince of the Kings of the Earth","r":"Revelation 1:5"},{"n":"King of the Jews","r":"Matthew 2:2"},{"n":"The King of Israel","r":"John 1:49"},{"n":"King of Saints","r":"Revelation 15:3"},{"n":"King of Nations","r":"Jeremiah 10:7"},{"n":"The Prince of Peace","r":"Isaiah 9:6"},{"n":"The Prince of Life","r":"Acts 3:15"},{"n":"Messiah the Prince","r":"Daniel 9:25"},{"n":"The Prince of Princes","r":"Daniel 8:25"},{"n":"The Governor Among the Nations","r":"Psalm 22:28"},{"n":"A Governor That Shall Rule My People Israel","r":"Matthew 2:6"},{"n":"Ruler in Israel","r":"Micah 5:2"},{"n":"A Sceptre Shall Rise Out of Israel","r":"Numbers 24:17"},{"n":"The Sceptre Shall Not Depart From Judah","r":"Genesis 49:10"},{"n":"Shiloh","r":"Genesis 49:10"},{"n":"Unto Him Shall the Gathering of the People Be","r":"Genesis 49:10"},{"n":"The Government Shall Be Upon His Shoulder","r":"Isaiah 9:6"},{"n":"Of the Increase of His Government There Shall Be No End","r":"Isaiah 9:7"},{"n":"Upon the Throne of David","r":"Isaiah 9:7"},{"n":"He Shall Reign For Ever and Ever","r":"Revelation 11:15"},{"n":"The Kingdoms of This World Are Become Our Lord's","r":"Revelation 11:15"},{"n":"All Power Is Given Unto Me","r":"Matthew 28:18"},{"n":"Head Over All Things To the Church","r":"Ephesians 1:22"},{"n":"Far Above All Principality and Power","r":"Ephesians 1:21"},{"n":"A Name Which Is Above Every Name","r":"Philippians 2:9"},{"n":"At the Name of Jesus Every Knee Should Bow","r":"Philippians 2:10"},{"n":"Every Tongue Should Confess","r":"Philippians 2:11"},{"n":"Set at His Own Right Hand","r":"Ephesians 1:20"},{"n":"Sit Thou at My Right Hand","r":"Psalm 110:1"},{"n":"The Rod of Thy Strength Out of Zion","r":"Psalm 110:2"},{"n":"Higher Than the Kings of the Earth","r":"Psalm 89:27"},{"n":"The Blessed and Only Potentate","r":"1 Timothy 6:15"},{"n":"A Great King","r":"Malachi 1:14"},{"n":"A King Shall Reign in Righteousness","r":"Isaiah 32:1"},{"n":"Thy King Cometh Unto Thee","r":"Zechariah 9:9"},{"n":"Lowly, and Riding Upon an Ass","r":"Zechariah 9:9"},{"n":"Behold Your King","r":"John 19:14"},{"n":"My King Upon My Holy Hill of Zion","r":"Psalm 2:6"},{"n":"The LORD Reigneth","r":"Psalm 93:1"},{"n":"The LORD Is King For Ever and Ever","r":"Psalm 10:16"},{"n":"The LORD Is Our King","r":"Isaiah 33:22"},{"n":"The LORD Is Our Lawgiver","r":"Isaiah 33:22"},{"n":"The LORD Is Our Judge","r":"Isaiah 33:22"},{"n":"Thine Is the Kingdom, and the Power, and the Glory","r":"Matthew 6:13"},{"n":"The Throne of His Glory","r":"Matthew 25:31"},{"n":"A Crown of Pure Gold","r":"Psalm 21:3"},{"n":"On His Head Were Many Crowns","r":"Revelation 19:12"},{"n":"He Hath On His Vesture a Name Written","r":"Revelation 19:16"},{"n":"A Great High Priest","r":"Hebrews 4:14"},{"n":"The High Priest of Our Profession","r":"Hebrews 3:1"},{"n":"A Merciful and Faithful High Priest","r":"Hebrews 2:17"},{"n":"A Priest For Ever After the Order of Melchisedec","r":"Hebrews 5:6"},{"n":"Made an High Priest For Ever","r":"Hebrews 6:20"},{"n":"Holy, Harmless, Undefiled","r":"Hebrews 7:26"},{"n":"Separate From Sinners","r":"Hebrews 7:26"},{"n":"Made Higher Than the Heavens","r":"Hebrews 7:26"},{"n":"Touched With the Feeling of Our Infirmities","r":"Hebrews 4:15"},{"n":"Tempted Like As We Are, Yet Without Sin","r":"Hebrews 4:15"},{"n":"The Surety of a Better Testament","r":"Hebrews 7:22"},{"n":"The Mediator of a Better Covenant","r":"Hebrews 8:6"},{"n":"The Mediator of the New Testament","r":"Hebrews 9:15"},{"n":"The Mediator Between God and Men","r":"1 Timothy 2:5"},{"n":"A Minister of the Sanctuary","r":"Hebrews 8:2"},{"n":"The True Tabernacle","r":"Hebrews 8:2"},{"n":"A Greater and More Perfect Tabernacle","r":"Hebrews 9:11"},{"n":"He Entered In Once Into the Holy Place","r":"Hebrews 9:12"},{"n":"He Appeared To Put Away Sin","r":"Hebrews 9:26"},{"n":"Now To Appear in the Presence of God For Us","r":"Hebrews 9:24"},{"n":"A Daysman Betwixt Us","r":"Job 9:33"},{"n":"He Hath Borne Our Griefs","r":"Isaiah 53:4"},{"n":"The Messenger of the Covenant","r":"Malachi 3:1"},{"n":"A Refiner and Purifier of Silver","r":"Malachi 3:3"},{"n":"A Priest Upon His Throne","r":"Zechariah 6:13"},{"n":"The Counsel of Peace Shall Be Between Them Both","r":"Zechariah 6:13"},{"n":"The Author and Finisher of Our Faith","r":"Hebrews 12:2"},{"n":"The Forerunner Within the Veil","r":"Hebrews 6:20"},{"n":"An Anchor of the Soul","r":"Hebrews 6:19"},{"n":"Sure and Stedfast","r":"Hebrews 6:19"},{"n":"Our Peace","r":"Ephesians 2:14"},{"n":"He Hath Broken Down the Middle Wall of Partition","r":"Ephesians 2:14"},{"n":"To Make in Himself of Twain One New Man","r":"Ephesians 2:15"},{"n":"Having Made Peace Through the Blood of His Cross","r":"Colossians 1:20"},{"n":"Reconciling All Things Unto Himself","r":"Colossians 1:20"},{"n":"Faithful and Just To Forgive Us Our Sins","r":"1 John 1:9"},{"n":"He That Sanctifieth and They Who Are Sanctified Are All of One","r":"Hebrews 2:11"},{"n":"Not Ashamed To Call Them Brethren","r":"Hebrews 2:11"},{"n":"The Firstborn Among Many Brethren","r":"Romans 8:29"},{"n":"A Friend That Sticketh Closer Than a Brother","r":"Proverbs 18:24"},{"n":"A Friend of Publicans and Sinners","r":"Matthew 11:19"},{"n":"He Learned Obedience","r":"Hebrews 5:8"},{"n":"Being Made Perfect","r":"Hebrews 5:9"},{"n":"A Lamb As It Had Been Slain","r":"Revelation 5:6"},{"n":"Having Obtained Eternal Redemption For Us","r":"Hebrews 9:12"},{"n":"The Son, Consecrated For Evermore","r":"Hebrews 7:28"},{"n":"Called of God an High Priest","r":"Hebrews 5:10"},{"n":"He Offered Up Himself","r":"Hebrews 7:27"},{"n":"Once In the End of the World","r":"Hebrews 9:26"},{"n":"Christ Is Entered Into Heaven Itself","r":"Hebrews 9:24"},{"n":"The Rock","r":"Deuteronomy 32:4"},{"n":"That Rock Was Christ","r":"1 Corinthians 10:4"},{"n":"That Spiritual Rock","r":"1 Corinthians 10:4"},{"n":"The Rock of My Refuge","r":"Psalm 94:22"},{"n":"The Rock That Is Higher Than I","r":"Psalm 61:2"},{"n":"The Rock of Israel","r":"2 Samuel 23:3"},{"n":"The Rock of My Strength","r":"Psalm 62:7"},{"n":"My Strong Rock","r":"Psalm 31:2"},{"n":"The LORD JEHOVAH Is Everlasting Strength","r":"Isaiah 26:4"},{"n":"A Tried Stone","r":"Isaiah 28:16"},{"n":"A Precious Corner Stone","r":"Isaiah 28:16"},{"n":"A Sure Foundation","r":"Isaiah 28:16"},{"n":"The Chief Corner Stone","r":"Ephesians 2:20"},{"n":"The Head of the Corner","r":"Matthew 21:42"},{"n":"The Stone Which the Builders Rejected","r":"Matthew 21:42"},{"n":"A Living Stone","r":"1 Peter 2:4"},{"n":"A Stone of Stumbling","r":"1 Peter 2:8"},{"n":"A Rock of Offence","r":"Romans 9:33"},{"n":"The Stone Cut Out Without Hands","r":"Daniel 2:34"},{"n":"The Stone of Israel","r":"Genesis 49:24"},{"n":"Other Foundation Can No Man Lay","r":"1 Corinthians 3:11"},{"n":"My Fortress","r":"Psalm 18:2"},{"n":"My High Tower","r":"Psalm 18:2"},{"n":"My Buckler","r":"Psalm 18:2"},{"n":"My Shield","r":"Psalm 3:3"},{"n":"The Shield of Thy Help","r":"Deuteronomy 33:29"},{"n":"A Strong Tower","r":"Proverbs 18:10"},{"n":"The Name of the LORD","r":"Proverbs 18:10"},{"n":"Our Refuge and Strength","r":"Psalm 46:1"},{"n":"A Very Present Help in Trouble","r":"Psalm 46:1"},{"n":"A Refuge From the Storm","r":"Isaiah 25:4"},{"n":"A Shadow From the Heat","r":"Isaiah 25:4"},{"n":"A Strength To the Poor","r":"Isaiah 25:4"},{"n":"A Covert From the Tempest","r":"Isaiah 32:2"},{"n":"Rivers of Water in a Dry Place","r":"Isaiah 32:2"},{"n":"The Shadow of a Great Rock in a Weary Land","r":"Isaiah 32:2"},{"n":"An Hiding Place From the Wind","r":"Isaiah 32:2"},{"n":"Thou Art My Hiding Place","r":"Psalm 32:7"},{"n":"The Shadow of the Almighty","r":"Psalm 91:1"},{"n":"Under His Wings Shalt Thou Trust","r":"Psalm 91:4"},{"n":"His Truth Shall Be Thy Shield and Buckler","r":"Psalm 91:4"},{"n":"My Habitation","r":"Psalm 91:9"},{"n":"My Strong Habitation","r":"Psalm 71:3"},{"n":"Our Dwelling Place in All Generations","r":"Psalm 90:1"},{"n":"The Eternal God Is Thy Refuge","r":"Deuteronomy 33:27"},{"n":"A Wall of Fire Round About","r":"Zechariah 2:5"},{"n":"The Strength of My Life","r":"Psalm 27:1"},{"n":"My Light and My Salvation","r":"Psalm 27:1"},{"n":"A Strong Hold in the Day of Trouble","r":"Nahum 1:7"},{"n":"He Knoweth Them That Trust in Him","r":"Nahum 1:7"},{"n":"The Bread of Life","r":"John 6:35"},{"n":"The Living Bread","r":"John 6:51"},{"n":"The Bread of God","r":"John 6:33"},{"n":"The True Bread From Heaven","r":"John 6:32"},{"n":"That Bread of Life","r":"John 6:48"},{"n":"Bread From Heaven To Eat","r":"John 6:31"},{"n":"The Hidden Manna","r":"Revelation 2:17"},{"n":"He That Cometh To Me Shall Never Hunger","r":"John 6:35"},{"n":"The Life","r":"John 14:6"},{"n":"The Resurrection and the Life","r":"John 11:25"},{"n":"In Him Was Life","r":"John 1:4"},{"n":"The Life Was Manifested","r":"1 John 1:2"},{"n":"Christ, Who Is Our Life","r":"Colossians 3:4"},{"n":"The Bread Which Came Down From Heaven","r":"John 6:58"},{"n":"The Water of Life","r":"Revelation 22:17"},{"n":"The Fountain of Living Waters","r":"Jeremiah 2:13"},{"n":"A Well of Water Springing Up Into Everlasting Life","r":"John 4:14"},{"n":"Rivers of Living Water","r":"John 7:38"},{"n":"A Fountain Opened For Sin and For Uncleanness","r":"Zechariah 13:1"},{"n":"Let Him That Is Athirst Come","r":"Revelation 22:17"},{"n":"If Any Man Thirst, Let Him Come Unto Me","r":"John 7:37"},{"n":"The Same Spiritual Drink","r":"1 Corinthians 10:4"},{"n":"The Same Spiritual Meat","r":"1 Corinthians 10:3"},{"n":"My Flesh Is Meat Indeed","r":"John 6:55"},{"n":"My Blood Is Drink Indeed","r":"John 6:55"},{"n":"The True Vine","r":"John 15:1"},{"n":"The Vine","r":"John 15:5"},{"n":"Ye Are the Branches","r":"John 15:5"},{"n":"Without Me Ye Can Do Nothing","r":"John 15:5"},{"n":"The Tree of Life","r":"Revelation 22:2"},{"n":"The Leaves For the Healing of the Nations","r":"Revelation 22:2"},{"n":"A Plant of Renown","r":"Ezekiel 34:29"},{"n":"As the Apple Tree Among the Trees of the Wood","r":"Song of Solomon 2:3"},{"n":"His Fruit Was Sweet To My Taste","r":"Song of Solomon 2:3"},{"n":"The Rose of Sharon","r":"Song of Solomon 2:1"},{"n":"The Lily of the Valleys","r":"Song of Solomon 2:1"},{"n":"A Bundle of Myrrh","r":"Song of Solomon 1:13"},{"n":"A Cluster of Camphire","r":"Song of Solomon 1:14"},{"n":"Ointment Poured Forth","r":"Song of Solomon 1:3"},{"n":"A Green Fir Tree","r":"Hosea 14:8"},{"n":"As the Dew Unto Israel","r":"Hosea 14:5"},{"n":"He Shall Come Down Like Rain","r":"Psalm 72:6"},{"n":"As the Latter and Former Rain","r":"Hosea 6:3"},{"n":"The Shewbread","r":"Exodus 25:30"},{"n":"The Corn of Heaven","r":"Psalm 78:24"},{"n":"Angels' Food","r":"Psalm 78:25"},{"n":"A Feast of Fat Things","r":"Isaiah 25:6"},{"n":"Wine and Milk Without Money","r":"Isaiah 55:1"},{"n":"Eat Ye That Which Is Good","r":"Isaiah 55:2"},{"n":"O Taste and See That the LORD Is Good","r":"Psalm 34:8"},{"n":"THE BRANCH","r":"Zechariah 3:8"},{"n":"The Branch of Righteousness","r":"Jeremiah 33:15"},{"n":"A Righteous Branch","r":"Jeremiah 23:5"},{"n":"The Man Whose Name Is The BRANCH","r":"Zechariah 6:12"},{"n":"The Branch of the LORD","r":"Isaiah 4:2"},{"n":"A Rod Out of the Stem of Jesse","r":"Isaiah 11:1"},{"n":"A Branch Out of His Roots","r":"Isaiah 11:1"},{"n":"A Root of Jesse","r":"Isaiah 11:10"},{"n":"The Root and the Offspring of David","r":"Revelation 22:16"},{"n":"The Root of David","r":"Revelation 5:5"},{"n":"A Root Out of a Dry Ground","r":"Isaiah 53:2"},{"n":"A Tender Plant","r":"Isaiah 53:2"},{"n":"The Seed of the Woman","r":"Genesis 3:15"},{"n":"It Shall Bruise Thy Head","r":"Genesis 3:15"},{"n":"The Seed of Abraham","r":"Galatians 3:16"},{"n":"In Thy Seed Shall All the Nations Be Blessed","r":"Genesis 22:18"},{"n":"Of the Seed of David","r":"2 Timothy 2:8"},{"n":"Of the House and Lineage of David","r":"Luke 2:4"},{"n":"The Son of David","r":"Matthew 9:27"},{"n":"The Offspring of David","r":"Revelation 22:16"},{"n":"The Lion of the Tribe of Juda","r":"Revelation 5:5"},{"n":"The Firstfruits of Them That Slept","r":"1 Corinthians 15:20"},{"n":"The Firstborn From the Dead","r":"Colossians 1:18"},{"n":"The First Begotten of the Dead","r":"Revelation 1:5"},{"n":"The Last Adam","r":"1 Corinthians 15:45"},{"n":"A Quickening Spirit","r":"1 Corinthians 15:45"},{"n":"The Second Man","r":"1 Corinthians 15:47"},{"n":"The Head of the Body, the Church","r":"Colossians 1:18"},{"n":"That in All Things He Might Have the Preeminence","r":"Colossians 1:18"},{"n":"He Shall Grow Up Out of His Place","r":"Zechariah 6:12"},{"n":"He Shall Build the Temple of the LORD","r":"Zechariah 6:12"},{"n":"He Shall Bear the Glory","r":"Zechariah 6:13"},{"n":"The Fruit of the Earth","r":"Isaiah 4:2"},{"n":"Excellent and Comely","r":"Isaiah 4:2"},{"n":"The Fruit of Thy Womb","r":"Luke 1:42"},{"n":"Blessed Art Thou Among Women","r":"Luke 1:42"},{"n":"Unto Us a Child Is Born","r":"Isaiah 9:6"},{"n":"Unto Us a Son Is Given","r":"Isaiah 9:6"},{"n":"A Virgin Shall Conceive","r":"Isaiah 7:14"},{"n":"That Holy Thing","r":"Luke 1:35"},{"n":"The Babe Lying in a Manger","r":"Luke 2:12"},{"n":"The Young Child","r":"Matthew 2:11"},{"n":"The Carpenter","r":"Mark 6:3"},{"n":"The Carpenter's Son","r":"Matthew 13:55"},{"n":"The Son of Mary","r":"Mark 6:3"},{"n":"Jesus of Nazareth","r":"Mark 1:24"},{"n":"He Shall Be Called a Nazarene","r":"Matthew 2:23"},{"n":"Jesus of Galilee","r":"Matthew 26:69"},{"n":"Jesus the Son of Joseph","r":"John 1:45"},{"n":"Made of a Woman","r":"Galatians 4:4"},{"n":"The Son of God","r":"Matthew 27:54"},{"n":"The Son of Man","r":"Matthew 8:20"},{"n":"The Only Begotten Son","r":"John 3:16"},{"n":"His Dear Son","r":"Colossians 1:13"},{"n":"My Beloved Son","r":"Matthew 3:17"},{"n":"In Whom I Am Well Pleased","r":"Matthew 3:17"},{"n":"Mine Elect","r":"Isaiah 42:1"},{"n":"My Servant Whom I Uphold","r":"Isaiah 42:1"},{"n":"My Righteous Servant","r":"Isaiah 53:11"},{"n":"He Took Upon Him the Form of a Servant","r":"Philippians 2:7"},{"n":"He Made Himself of No Reputation","r":"Philippians 2:7"},{"n":"Made in the Likeness of Men","r":"Philippians 2:7"},{"n":"The Son of the Highest","r":"Luke 1:32"},{"n":"The Son of the Blessed","r":"Mark 14:61"},{"n":"A Son Over His Own House","r":"Hebrews 3:6"},{"n":"This Is the Heir","r":"Matthew 21:38"},{"n":"The Son of Man Hath Not Where To Lay His Head","r":"Matthew 8:20"},{"n":"The Son of Man Came To Minister","r":"Matthew 20:28"},{"n":"The Son of Man Is Lord Even of the Sabbath","r":"Matthew 12:8"},{"n":"The Son of Man Coming in the Clouds of Heaven","r":"Matthew 24:30"},{"n":"One Like the Son of Man","r":"Daniel 7:13"},{"n":"The Son of Man Sitting on the Right Hand of Power","r":"Mark 14:62"},{"n":"The Son Quickeneth Whom He Will","r":"John 5:21"},{"n":"Authority To Execute Judgment Also","r":"John 5:27"},{"n":"The Son Can Do Nothing of Himself","r":"John 5:19"},{"n":"I and My Father Are One","r":"John 10:30"},{"n":"He That Hath Seen Me Hath Seen the Father","r":"John 14:9"},{"n":"The Father Is in Me, and I in Him","r":"John 10:38"},{"n":"The Father Hath Sent Me","r":"John 5:36"},{"n":"Sanctified and Sent Into the World","r":"John 10:36"},{"n":"I Came Down From Heaven","r":"John 6:38"},{"n":"To Do the Will of Him That Sent Me","r":"John 6:38"},{"n":"My Meat Is To Do the Will of Him That Sent Me","r":"John 4:34"},{"n":"I Do Always Those Things That Please Him","r":"John 8:29"},{"n":"He Humbled Himself","r":"Philippians 2:8"},{"n":"Though He Were a Son, Yet Learned He Obedience","r":"Hebrews 5:8"},{"n":"Her Firstborn Son","r":"Matthew 1:25"},{"n":"Jesus Christ, the Son of God","r":"Mark 1:1"},{"n":"Thou Art the Christ","r":"Matthew 16:16"},{"n":"The Christ of God","r":"Luke 9:20"},{"n":"The Messias","r":"John 1:41"},{"n":"His Anointed","r":"Psalm 2:2"},{"n":"Anointed With the Oil of Gladness","r":"Hebrews 1:9"},{"n":"The Spirit of the Lord GOD Is Upon Me","r":"Isaiah 61:1"},{"n":"Anointed With the Holy Ghost and With Power","r":"Acts 10:38"},{"n":"Who Went About Doing Good","r":"Acts 10:38"},{"n":"A Man Approved of God","r":"Acts 2:22"},{"n":"Declared To Be the Son of God With Power","r":"Romans 1:4"},{"n":"The Son of God Was Manifested","r":"1 John 3:8"},{"n":"Great Is the Mystery of Godliness","r":"1 Timothy 3:16"},{"n":"The Judge of All the Earth","r":"Genesis 18:25"},{"n":"The Judge of Quick and Dead","r":"Acts 10:42"},{"n":"The Righteous Judge","r":"2 Timothy 4:8"},{"n":"He Shall Judge the World in Righteousness","r":"Psalm 96:13"},{"n":"He Shall Judge Among the Nations","r":"Isaiah 2:4"},{"n":"With Righteousness Shall He Judge the Poor","r":"Isaiah 11:4"},{"n":"He Shall Not Judge After the Sight of His Eyes","r":"Isaiah 11:3"},{"n":"The Rod of His Mouth","r":"Isaiah 11:4"},{"n":"The Breath of His Lips","r":"Isaiah 11:4"},{"n":"Righteousness the Girdle of His Loins","r":"Isaiah 11:5"},{"n":"Faithfulness the Girdle of His Reins","r":"Isaiah 11:5"},{"n":"He Shall Sit Upon the Throne of His Glory","r":"Matthew 25:31"},{"n":"Before Him Shall Be Gathered All Nations","r":"Matthew 25:32"},{"n":"He Shall Separate Them One From Another","r":"Matthew 25:32"},{"n":"The Righteous LORD Loveth Righteousness","r":"Psalm 11:7"},{"n":"A Just God and a Saviour","r":"Isaiah 45:21"},{"n":"The Just LORD Is in the Midst Thereof","r":"Zephaniah 3:5"},{"n":"That Just Man","r":"Matthew 27:19"},{"n":"The Just","r":"1 Peter 3:18"},{"n":"The Just For the Unjust","r":"1 Peter 3:18"},{"n":"Thou Hast Loved Righteousness and Hated Iniquity","r":"Hebrews 1:9"},{"n":"A Sceptre of Righteousness","r":"Hebrews 1:8"},{"n":"Thy Throne, O God, Is For Ever and Ever","r":"Hebrews 1:8"},{"n":"He Shall Execute Judgment and Justice","r":"Jeremiah 23:5"},{"n":"In His Days Judah Shall Be Saved","r":"Jeremiah 23:6"},{"n":"In Righteousness He Doth Judge and Make War","r":"Revelation 19:11"},{"n":"Great and Marvellous Are Thy Works","r":"Revelation 15:3"},{"n":"Just and True Are Thy Ways","r":"Revelation 15:3"},{"n":"True and Righteous Are His Judgments","r":"Revelation 19:2"},{"n":"Whose Fan Is in His Hand","r":"Matthew 3:12"},{"n":"He Will Throughly Purge His Floor","r":"Matthew 3:12"},{"n":"He Will Gather His Wheat Into the Garner","r":"Matthew 3:12"},{"n":"The Axe Is Laid Unto the Root of the Trees","r":"Matthew 3:10"},{"n":"He Shall Baptize You With the Holy Ghost and With Fire","r":"Matthew 3:11"},{"n":"The Great Winepress of the Wrath of God","r":"Revelation 14:19"},{"n":"He Treadeth the Winepress","r":"Revelation 19:15"},{"n":"Out of His Mouth Goeth a Sharp Sword","r":"Revelation 19:15"},{"n":"He Shall Rule Them With a Rod of Iron","r":"Revelation 19:15"},{"n":"The Wrath of the Lamb","r":"Revelation 6:16"},{"n":"The Great Day of His Wrath","r":"Revelation 6:17"},{"n":"Who Shall Be Able To Stand","r":"Revelation 6:17"},{"n":"The Judgment Seat of Christ","r":"2 Corinthians 5:10"},{"n":"He Shall Reward Every Man According To His Works","r":"Matthew 16:27"},{"n":"My Reward Is With Me","r":"Revelation 22:12"},{"n":"He Shall Come To Be Glorified in His Saints","r":"2 Thessalonians 1:10"},{"n":"In Flaming Fire Taking Vengeance","r":"2 Thessalonians 1:8"},{"n":"The Day of the Lord","r":"2 Peter 3:10"},{"n":"Behold, He Cometh With Clouds","r":"Revelation 1:7"},{"n":"Every Eye Shall See Him","r":"Revelation 1:7"},{"n":"Behold, I Come Quickly","r":"Revelation 22:12"},{"n":"All Things Were Made by Him","r":"John 1:3"},{"n":"Without Him Was Not Any Thing Made","r":"John 1:3"},{"n":"By Him Were All Things Created","r":"Colossians 1:16"},{"n":"Things in Heaven and Things in Earth","r":"Colossians 1:16"},{"n":"Visible and Invisible","r":"Colossians 1:16"},{"n":"All Things Were Created by Him and For Him","r":"Colossians 1:16"},{"n":"By Him All Things Consist","r":"Colossians 1:17"},{"n":"Upholding All Things by the Word of His Power","r":"Hebrews 1:3"},{"n":"The Creator of the Ends of the Earth","r":"Isaiah 40:28"},{"n":"He That Created the Heavens","r":"Isaiah 42:5"},{"n":"He That Spread Forth the Earth","r":"Isaiah 42:5"},{"n":"He Giveth Breath Unto the People Upon It","r":"Isaiah 42:5"},{"n":"Thy Maker Is Thine Husband","r":"Isaiah 54:5"},{"n":"The LORD Our Maker","r":"Psalm 95:6"},{"n":"He That Formed Thee","r":"Isaiah 43:1"},{"n":"He That Created Thee","r":"Isaiah 43:1"},{"n":"The Potter","r":"Jeremiah 18:6"},{"n":"The Former of All Things","r":"Jeremiah 51:19"},{"n":"He Hath Made the Earth by His Power","r":"Jeremiah 10:12"},{"n":"He Hath Established the World by His Wisdom","r":"Jeremiah 10:12"},{"n":"He Hath Stretched Out the Heavens by His Discretion","r":"Jeremiah 10:12"},{"n":"He Weigheth the Waters by Measure","r":"Job 28:25"},{"n":"He Measured the Waters in the Hollow of His Hand","r":"Isaiah 40:12"},{"n":"He Meted Out Heaven With a Span","r":"Isaiah 40:12"},{"n":"He Sitteth Upon the Circle of the Earth","r":"Isaiah 40:22"},{"n":"He Bringeth Out Their Host by Number","r":"Isaiah 40:26"},{"n":"He Calleth Them All by Names","r":"Isaiah 40:26"},{"n":"He Telleth the Number of the Stars","r":"Psalm 147:4"},{"n":"That Maketh the Seven Stars and Orion","r":"Amos 5:8"},{"n":"He That Formeth the Mountains and Createth the Wind","r":"Amos 4:13"},{"n":"He That Maketh the Morning Darkness","r":"Amos 4:13"},{"n":"He Treadeth Upon the High Places of the Earth","r":"Amos 4:13"},{"n":"He Layeth the Beams of His Chambers in the Waters","r":"Psalm 104:3"},{"n":"He Walketh Upon the Wings of the Wind","r":"Psalm 104:3"},{"n":"He Appointed the Moon For Seasons","r":"Psalm 104:19"},{"n":"He Sendeth the Springs Into the Valleys","r":"Psalm 104:10"},{"n":"He Giveth To All Life and Breath","r":"Acts 17:25"},{"n":"In Him We Live and Move and Have Our Being","r":"Acts 17:28"},{"n":"Possessor of Heaven and Earth","r":"Genesis 14:19"},{"n":"The Whole Earth Is Full of His Glory","r":"Isaiah 6:3"},{"n":"The Heavens Declare the Glory of God","r":"Psalm 19:1"},{"n":"The Firmament Sheweth His Handywork","r":"Psalm 19:1"},{"n":"He Spake, and It Was Done","r":"Psalm 33:9"},{"n":"He Commanded, and It Stood Fast","r":"Psalm 33:9"},{"n":"Thou Openest Thine Hand and Satisfiest Every Living Thing","r":"Psalm 145:16"},{"n":"He Giveth To the Beast His Food","r":"Psalm 147:9"},{"n":"He Covereth the Heaven With Clouds","r":"Psalm 147:8"},{"n":"He Maketh Grass To Grow Upon the Mountains","r":"Psalm 147:8"},{"n":"He Giveth Snow Like Wool","r":"Psalm 147:16"},{"n":"Who Can Stand Before His Cold","r":"Psalm 147:17"},{"n":"The Bridegroom","r":"Matthew 9:15"},{"n":"Behold, the Bridegroom Cometh","r":"Matthew 25:6"},{"n":"The Friend of the Bridegroom","r":"John 3:29"},{"n":"Espoused To One Husband","r":"2 Corinthians 11:2"},{"n":"Christ Loved the Church and Gave Himself For It","r":"Ephesians 5:25"},{"n":"That He Might Sanctify and Cleanse It","r":"Ephesians 5:26"},{"n":"A Glorious Church, Not Having Spot or Wrinkle","r":"Ephesians 5:27"},{"n":"My Beloved","r":"Song of Solomon 2:16"},{"n":"My Beloved Is Mine, and I Am His","r":"Song of Solomon 2:16"},{"n":"His Mouth Is Most Sweet","r":"Song of Solomon 5:16"},{"n":"This Is My Friend","r":"Song of Solomon 5:16"},{"n":"The Voice of My Beloved","r":"Song of Solomon 2:8"},{"n":"He Cometh Leaping Upon the Mountains","r":"Song of Solomon 2:8"},{"n":"Rise Up, My Love, My Fair One","r":"Song of Solomon 2:10"},{"n":"His Banner Over Me Was Love","r":"Song of Solomon 2:4"},{"n":"Set Me as a Seal Upon Thine Heart","r":"Song of Solomon 8:6"},{"n":"Love Is Strong as Death","r":"Song of Solomon 8:6"},{"n":"Many Waters Cannot Quench Love","r":"Song of Solomon 8:7"},{"n":"The Love of Christ Which Passeth Knowledge","r":"Ephesians 3:19"},{"n":"Greater Love Hath No Man Than This","r":"John 15:13"},{"n":"He Laid Down His Life For His Friends","r":"John 15:13"},{"n":"Ye Are My Friends","r":"John 15:14"},{"n":"I Have Called You Friends","r":"John 15:15"},{"n":"Having Loved His Own, He Loved Them Unto the End","r":"John 13:1"},{"n":"The Disciple Whom Jesus Loved","r":"John 13:23"},{"n":"Who Loved Me and Gave Himself For Me","r":"Galatians 2:20"},{"n":"God Commendeth His Love Toward Us","r":"Romans 5:8"},{"n":"Who Shall Separate Us From the Love of Christ","r":"Romans 8:35"},{"n":"We Are More Than Conquerors Through Him","r":"Romans 8:37"},{"n":"Behold, What Manner of Love","r":"1 John 3:1"},{"n":"Herein Is Love","r":"1 John 4:10"},{"n":"We Love Him Because He First Loved Us","r":"1 John 4:19"},{"n":"God Is Love","r":"1 John 4:8"},{"n":"Unto Him That Loved Us","r":"Revelation 1:5"},{"n":"Thy First Love","r":"Revelation 2:4"},{"n":"I Stand at the Door and Knock","r":"Revelation 3:20"},{"n":"I Will Come In To Him and Sup With Him","r":"Revelation 3:20"},{"n":"As Many as I Love, I Rebuke and Chasten","r":"Revelation 3:19"},{"n":"The Marriage Supper of the Lamb","r":"Revelation 19:9"},{"n":"The Bride, the Lamb's Wife","r":"Revelation 21:9"},{"n":"A Bride Adorned For Her Husband","r":"Revelation 21:2"},{"n":"He Will Rejoice Over Thee With Joy","r":"Zephaniah 3:17"},{"n":"He Will Rest in His Love","r":"Zephaniah 3:17"},{"n":"He Will Joy Over Thee With Singing","r":"Zephaniah 3:17"},{"n":"I Have Loved Thee With an Everlasting Love","r":"Jeremiah 31:3"},{"n":"With Lovingkindness Have I Drawn Thee","r":"Jeremiah 31:3"},{"n":"Graven Thee Upon the Palms of My Hands","r":"Isaiah 49:16"},{"n":"Can a Woman Forget Her Sucking Child","r":"Isaiah 49:15"},{"n":"As One Whom His Mother Comforteth","r":"Isaiah 66:13"},{"n":"Accepted in the Beloved","r":"Ephesians 1:6"},{"n":"JEHOVAH","r":"Psalm 83:18"},{"n":"Jehovahjireh","r":"Genesis 22:14"},{"n":"Jehovahnissi","r":"Exodus 17:15"},{"n":"Jehovahshalom","r":"Judges 6:24"},{"n":"The LORD Is There","r":"Ezekiel 48:35"},{"n":"JAH","r":"Psalm 68:4"},{"n":"The LORD Thy God","r":"Exodus 20:2"},{"n":"The LORD That Doth Sanctify You","r":"Exodus 31:13"},{"n":"God Almighty","r":"Genesis 17:1"},{"n":"The Most High God","r":"Genesis 14:18"},{"n":"The Everlasting God at Beersheba","r":"Genesis 21:33"},{"n":"Thou God Seest Me","r":"Genesis 16:13"},{"n":"The God of Bethel","r":"Genesis 31:13"},{"n":"The God of Abraham, Isaac, and Jacob","r":"Exodus 3:6"},{"n":"The Mighty God of Jacob","r":"Genesis 49:24"},{"n":"The God of Israel","r":"Isaiah 45:3"},{"n":"The LORD God of Hosts Is His Name","r":"Amos 4:13"},{"n":"The Spirit of the Lord GOD","r":"Isaiah 61:1"},{"n":"The LORD Is a Man of War","r":"Exodus 15:3"},{"n":"The LORD Is My Strength and Song","r":"Exodus 15:2"},{"n":"Who Is Like Unto Thee, O LORD","r":"Exodus 15:11"},{"n":"Glorious in Holiness","r":"Exodus 15:11"},{"n":"Fearful in Praises","r":"Exodus 15:11"},{"n":"Doing Wonders","r":"Exodus 15:11"},{"n":"The LORD Shall Reign For Ever and Ever","r":"Exodus 15:18"},{"n":"The LORD God, Merciful and Gracious","r":"Exodus 34:6"},{"n":"Longsuffering, and Abundant in Goodness and Truth","r":"Exodus 34:6"},{"n":"Keeping Mercy For Thousands","r":"Exodus 34:7"},{"n":"Forgiving Iniquity and Transgression and Sin","r":"Exodus 34:7"},{"n":"The LORD Our God Is One LORD","r":"Deuteronomy 6:4"},{"n":"God of Gods, and Lord of Lords","r":"Deuteronomy 10:17"},{"n":"A Great God, a Mighty, and a Terrible","r":"Deuteronomy 10:17"},{"n":"A God of Truth and Without Iniquity","r":"Deuteronomy 32:4"},{"n":"Just and Right Is He","r":"Deuteronomy 32:4"},{"n":"His Work Is Perfect","r":"Deuteronomy 32:4"},{"n":"The LORD Is a God of Knowledge","r":"1 Samuel 2:3"},{"n":"There Is None Holy as the LORD","r":"1 Samuel 2:2"},{"n":"The LORD Looketh on the Heart","r":"1 Samuel 16:7"},{"n":"The Strength of Israel","r":"1 Samuel 15:29"},{"n":"The LORD God of Elijah","r":"2 Kings 2:14"},{"n":"Thou Art the God, Even Thou Alone","r":"2 Kings 19:15"},{"n":"Thine, O LORD, Is the Greatness and the Power","r":"1 Chronicles 29:11"},{"n":"Thou Reignest Over All","r":"1 Chronicles 29:12"},{"n":"The LORD Is Good","r":"Psalm 100:5"},{"n":"His Mercy Is Everlasting","r":"Psalm 100:5"},{"n":"His Truth Endureth To All Generations","r":"Psalm 100:5"},{"n":"Holy and Reverend Is His Name","r":"Psalm 111:9"},{"n":"How Excellent Is Thy Name in All the Earth","r":"Psalm 8:1"},{"n":"The God of the Whole Earth Shall He Be Called","r":"Isaiah 54:5"},{"n":"I Am the LORD, That Is My Name","r":"Isaiah 42:8"},{"n":"I Am the LORD That Healeth Thee","r":"Exodus 15:26"},{"n":"He Healeth the Broken in Heart","r":"Psalm 147:3"},{"n":"He Bindeth Up Their Wounds","r":"Psalm 147:3"},{"n":"Who Healeth All Thy Diseases","r":"Psalm 103:3"},{"n":"Who Forgiveth All Thine Iniquities","r":"Psalm 103:3"},{"n":"Who Redeemeth Thy Life From Destruction","r":"Psalm 103:4"},{"n":"Who Crowneth Thee With Lovingkindness and Tender Mercies","r":"Psalm 103:4"},{"n":"Who Satisfieth Thy Mouth With Good Things","r":"Psalm 103:5"},{"n":"Himself Took Our Infirmities","r":"Matthew 8:17"},{"n":"And Bare Our Sicknesses","r":"Matthew 8:17"},{"n":"He Healed All That Were Sick","r":"Matthew 8:16"},{"n":"Virtue Went Out of Him and Healed Them All","r":"Luke 6:19"},{"n":"The Physician","r":"Matthew 9:12"},{"n":"They That Be Whole Need Not a Physician","r":"Matthew 9:12"},{"n":"To Heal the Brokenhearted","r":"Luke 4:18"},{"n":"To Preach Deliverance To the Captives","r":"Luke 4:18"},{"n":"Recovering of Sight To the Blind","r":"Luke 4:18"},{"n":"To Set at Liberty Them That Are Bruised","r":"Luke 4:18"},{"n":"The Acceptable Year of the Lord","r":"Luke 4:19"},{"n":"Beauty For Ashes","r":"Isaiah 61:3"},{"n":"The Oil of Joy For Mourning","r":"Isaiah 61:3"},{"n":"The Garment of Praise For the Spirit of Heaviness","r":"Isaiah 61:3"},{"n":"To Comfort All That Mourn","r":"Isaiah 61:2"},{"n":"The God of All Comfort","r":"2 Corinthians 1:3"},{"n":"The Father of Mercies","r":"2 Corinthians 1:3"},{"n":"Who Comforteth Us in All Our Tribulation","r":"2 Corinthians 1:4"},{"n":"The Comforter","r":"John 14:16"},{"n":"Another Comforter","r":"John 14:16"},{"n":"He May Abide With You For Ever","r":"John 14:16"},{"n":"The Holy Ghost, Whom the Father Will Send","r":"John 14:26"},{"n":"He Shall Teach You All Things","r":"John 14:26"},{"n":"He Shall Bring All Things To Your Remembrance","r":"John 14:26"},{"n":"He Will Guide You Into All Truth","r":"John 16:13"},{"n":"He Shall Glorify Me","r":"John 16:14"},{"n":"My Peace I Give Unto You","r":"John 14:27"},{"n":"Let Not Your Heart Be Troubled","r":"John 14:27"},{"n":"Come Unto Me, All Ye That Labour","r":"Matthew 11:28"},{"n":"I Will Give You Rest","r":"Matthew 11:28"},{"n":"Take My Yoke Upon You","r":"Matthew 11:29"},{"n":"My Yoke Is Easy, and My Burden Is Light","r":"Matthew 11:30"},{"n":"Ye Shall Find Rest Unto Your Souls","r":"Matthew 11:29"},{"n":"Meek and Lowly in Heart","r":"Matthew 11:29"},{"n":"A Bruised Reed Shall He Not Break","r":"Isaiah 42:3"},{"n":"The Smoking Flax Shall He Not Quench","r":"Isaiah 42:3"},{"n":"He Shall Wipe Away All Tears From Their Eyes","r":"Revelation 21:4"},{"n":"Casting All Your Care Upon Him","r":"1 Peter 5:7"},{"n":"He Careth For You","r":"1 Peter 5:7"},{"n":"He Giveth Power To the Faint","r":"Isaiah 40:29"},{"n":"They Shall Mount Up With Wings as Eagles","r":"Isaiah 40:31"},{"n":"The Very God of Peace","r":"1 Thessalonians 5:23"},{"n":"The Lion of the Tribe of Juda Hath Prevailed","r":"Revelation 5:5"},{"n":"He Went Forth Conquering, and To Conquer","r":"Revelation 6:2"},{"n":"The Lamb Shall Overcome Them","r":"Revelation 17:14"},{"n":"Lord of Lords, and King of Kings","r":"Revelation 17:14"},{"n":"I Have Overcome the World","r":"John 16:33"},{"n":"Having Spoiled Principalities and Powers","r":"Colossians 2:15"},{"n":"He Made a Shew of Them Openly","r":"Colossians 2:15"},{"n":"Triumphing Over Them In It","r":"Colossians 2:15"},{"n":"Blotting Out the Handwriting of Ordinances","r":"Colossians 2:14"},{"n":"Nailing It To His Cross","r":"Colossians 2:14"},{"n":"That He Might Destroy the Works of the Devil","r":"1 John 3:8"},{"n":"That He Might Destroy Him That Had the Power of Death","r":"Hebrews 2:14"},{"n":"Deliver Them Who Through Fear of Death Were Subject To Bondage","r":"Hebrews 2:15"},{"n":"O Death, Where Is Thy Sting","r":"1 Corinthians 15:55"},{"n":"Thanks Be To God, Which Giveth Us the Victory","r":"1 Corinthians 15:57"},{"n":"Death Is Swallowed Up in Victory","r":"1 Corinthians 15:54"},{"n":"He Led Captivity Captive","r":"Ephesians 4:8"},{"n":"He Ascended Up Far Above All Heavens","r":"Ephesians 4:10"},{"n":"He Gave Gifts Unto Men","r":"Ephesians 4:8"},{"n":"The Stone Rolled Back","r":"Matthew 28:2"},{"n":"He Is Not Here: For He Is Risen","r":"Matthew 28:6"},{"n":"Christ the Firstfruits","r":"1 Corinthians 15:23"},{"n":"I Am He That Liveth, and Was Dead","r":"Revelation 1:18"},{"n":"I Have the Keys of Hell and of Death","r":"Revelation 1:18"},{"n":"He That Openeth, and No Man Shutteth","r":"Revelation 3:7"},{"n":"The Key of David","r":"Revelation 3:7"},{"n":"The LORD Mighty in Battle","r":"Psalm 24:8"},{"n":"The LORD Strong and Mighty","r":"Psalm 24:8"},{"n":"He Teacheth My Hands To War","r":"Psalm 18:34"},{"n":"Thou Hast Girded Me With Strength Unto the Battle","r":"Psalm 18:39"},{"n":"Thou Hast Given Me the Shield of Thy Salvation","r":"Psalm 18:35"},{"n":"Thy Right Hand Hath Holden Me Up","r":"Psalm 18:35"},{"n":"The LORD Shall Fight For You","r":"Exodus 14:14"},{"n":"The Battle Is the LORD's","r":"1 Samuel 17:47"},{"n":"He Shall Go Forth as a Mighty Man","r":"Isaiah 42:13"},{"n":"He Shall Stir Up Jealousy Like a Man of War","r":"Isaiah 42:13"},{"n":"He Shall Prevail Against His Enemies","r":"Isaiah 42:13"},{"n":"Travelling in the Greatness of His Strength","r":"Isaiah 63:1"},{"n":"Mighty To Save","r":"Isaiah 63:1"},{"n":"Who Is This That Cometh From Edom","r":"Isaiah 63:1"},{"n":"I Have Trodden the Winepress Alone","r":"Isaiah 63:3"},{"n":"The Day of Vengeance Is in Mine Heart","r":"Isaiah 63:4"},{"n":"Mine Own Arm Brought Salvation Unto Me","r":"Isaiah 63:5"},{"n":"The God of Peace Shall Bruise Satan Under Your Feet","r":"Romans 16:20"},{"n":"Thou Hast Put All Things in Subjection Under His Feet","r":"Hebrews 2:8"},{"n":"Until I Make Thine Enemies Thy Footstool","r":"Psalm 110:1"},{"n":"Rule Thou in the Midst of Thine Enemies","r":"Psalm 110:2"},{"n":"He Shall Strike Through Kings","r":"Psalm 110:5"},{"n":"The Lord at Thy Right Hand","r":"Psalm 110:5"},{"n":"Upon a White Horse","r":"Revelation 19:11"},{"n":"The Revelation of Jesus Christ","r":"Revelation 1:1"},{"n":"One Like Unto the Son of Man","r":"Revelation 1:13"},{"n":"Girt About the Paps With a Golden Girdle","r":"Revelation 1:13"},{"n":"In His Right Hand Seven Stars","r":"Revelation 1:16"},{"n":"He That Holdeth the Seven Stars","r":"Revelation 2:1"},{"n":"He That Walketh in the Midst of the Seven Golden Candlesticks","r":"Revelation 2:1"},{"n":"The First and the Last, Which Was Dead, and Is Alive","r":"Revelation 2:8"},{"n":"He Which Hath the Sharp Sword With Two Edges","r":"Revelation 2:12"},{"n":"The Son of God, Who Hath His Eyes Like Unto a Flame of Fire","r":"Revelation 2:18"},{"n":"He That Hath the Seven Spirits of God","r":"Revelation 3:1"},{"n":"He That Is Holy, He That Is True","r":"Revelation 3:7"},{"n":"The Amen, the Faithful and True Witness","r":"Revelation 3:14"},{"n":"One Sat On the Throne","r":"Revelation 4:2"},{"n":"A Rainbow Round About the Throne","r":"Revelation 4:3"},{"n":"Holy, Holy, Holy, Lord God Almighty","r":"Revelation 4:8"},{"n":"Thou Art Worthy, O Lord","r":"Revelation 4:11"},{"n":"A Lamb Having Seven Horns and Seven Eyes","r":"Revelation 5:6"},{"n":"He Came and Took the Book","r":"Revelation 5:7"},{"n":"Worthy Is the Lamb To Receive Power","r":"Revelation 5:12"},{"n":"Blessing, and Honour, and Glory, and Power","r":"Revelation 5:13"},{"n":"Salvation To Our God and Unto the Lamb","r":"Revelation 7:10"},{"n":"The Lamb Shall Feed Them","r":"Revelation 7:17"},{"n":"He Shall Lead Them Unto Living Fountains of Waters","r":"Revelation 7:17"},{"n":"God Shall Wipe Away All Tears From Their Eyes","r":"Revelation 7:17"},{"n":"The Kingdom of Our Lord, and of His Christ","r":"Revelation 11:15"},{"n":"A Man Child, Who Was To Rule All Nations","r":"Revelation 12:5"},{"n":"They Overcame Him by the Blood of the Lamb","r":"Revelation 12:11"},{"n":"A Lamb Stood On the Mount Sion","r":"Revelation 14:1"},{"n":"His Father's Name Written in Their Foreheads","r":"Revelation 14:1"},{"n":"The Song of Moses and the Song of the Lamb","r":"Revelation 15:3"},{"n":"Thou King of Saints","r":"Revelation 15:3"},{"n":"Thou Only Art Holy","r":"Revelation 15:4"},{"n":"Faithful and True Upon a White Horse","r":"Revelation 19:11"},{"n":"His Name Is Called The Word of God","r":"Revelation 19:13"},{"n":"Clothed With a Vesture Dipped in Blood","r":"Revelation 19:13"},{"n":"The Armies in Heaven Followed Him","r":"Revelation 19:14"},{"n":"He Treadeth the Winepress of the Fierceness of God","r":"Revelation 19:15"},{"n":"Alpha and Omega, the Beginning and the End","r":"Revelation 21:6"},{"n":"I Will Give Unto Him That Is Athirst","r":"Revelation 21:6"},{"n":"He That Overcometh Shall Inherit All Things","r":"Revelation 21:7"},{"n":"I Will Be His God, and He Shall Be My Son","r":"Revelation 21:7"},{"n":"The Lord God Almighty and the Lamb Are the Temple","r":"Revelation 21:22"},{"n":"The Nations Shall Walk in the Light of It","r":"Revelation 21:24"},{"n":"A Pure River of Water of Life","r":"Revelation 22:1"},{"n":"Proceeding Out of the Throne of God and of the Lamb","r":"Revelation 22:1"},{"n":"His Servants Shall Serve Him","r":"Revelation 22:3"},{"n":"They Shall See His Face","r":"Revelation 22:4"},{"n":"The Lord God Giveth Them Light","r":"Revelation 22:5"},{"n":"Surely I Come Quickly","r":"Revelation 22:20"},{"n":"Even So, Come, Lord Jesus","r":"Revelation 22:20"}];
+</script>
+<script>
+(function(){
+  "use strict";
+  var NAMES = (typeof KIDS_NAMES!=="undefined") ? KIDS_NAMES : [{n:"Jesus",r:"Matthew 1:21"}];
+
+  function load(k,d){ try{var v=localStorage.getItem(k);return v==null?d:JSON.parse(v);}catch(e){return d;} }
+  function save(k,v){ try{localStorage.setItem(k,JSON.stringify(v));}catch(e){} }
+  function pad2(n){ return (n<10?"0":"")+n; }
+  function isoDay(d){ return d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate()); }
+  function today(){ return isoDay(new Date()); }
+  function yesterday(){ var d=new Date(); d.setDate(d.getDate()-1); return isoDay(d); }
+
+  var K={target:"ttk_target",today:"ttk_today",date:"ttk_date",idx:"ttk_idx",total:"ttk_total",
+         streak:"ttk_streak",lastMet:"ttk_lastMet",name:"ttk_name",read:"ttk_read",loops:"ttk_loops"};
+
+  var S={
+    target: load(K.target,20),
+    today:  load(K.today,0),
+    date:   load(K.date,""),
+    idx:    load(K.idx,0),
+    total:  load(K.total,0),
+    streak: load(K.streak,0),
+    lastMet:load(K.lastMet,""),
+    name:   load(K.name,""),
+    read:   load(K.read,true),
+    loops:  load(K.loops,0)
+  };
+
+  // roll the day over; break the streak if a day was missed
+  (function(){
+    var t=today();
+    if(S.date!==t){
+      if(S.lastMet && S.lastMet!==t && S.lastMet!==yesterday()){ S.streak=0; save(K.streak,0); }
+      S.today=0; S.date=t; save(K.today,0); save(K.date,t);
+    }
+  })();
+
+  var elToday=document.getElementById("todayN"), elTarget=document.getElementById("targetN"),
+      elBar=document.getElementById("bar"), elGoal=document.getElementById("goalLine"),
+      elProgName=document.getElementById("progName"),
+      elReveal=document.getElementById("reveal"), elIdle=document.getElementById("revealIdle"),
+      elShow=document.getElementById("revealShow"), elNm=document.getElementById("revNm"), elRf=document.getElementById("revRf"),
+      elStreakChip=document.getElementById("streakChip"), elStreakN=document.getElementById("streakN");
+
+  function refresh(){
+    elToday.textContent=S.today; elTarget.textContent=S.target;
+    var pct=Math.min(100, Math.round(S.today/Math.max(1,S.target)*100));
+    elBar.style.width=pct+"%";
+    elProgName.textContent = S.name ? (S.name+"'s thank-yous today") : "Today's thank-yous";
+    if(S.today>=S.target){ elGoal.textContent="🌟 Goal done! Every extra is a bonus!"; }
+    else { elGoal.textContent=(S.target-S.today)+" more to meet today's goal!"; }
+    if(S.streak>0){ elStreakChip.classList.remove("hide"); elStreakN.textContent=S.streak; }
+    else elStreakChip.classList.add("hide");
+    document.getElementById("readTog").classList.toggle("on", !!S.read);
+  }
+
+  function speak(txt){
+    if(!S.read) return;
+    try{ if(window.speechSynthesis){ speechSynthesis.cancel(); var u=new SpeechSynthesisUtterance(txt); u.rate=.9; u.pitch=1.1; speechSynthesis.speak(u); } }catch(e){}
+  }
+
+  function revealName(nm){
+    elIdle.classList.add("hide"); elShow.classList.remove("hide");
+    elNm.textContent=nm.n; elRf.textContent=nm.r;
+    elReveal.classList.remove("pop"); void elReveal.offsetWidth; elReveal.classList.add("pop");
+    speak(nm.n);
+  }
+
+  // one thank-you: count it and meet the next name
+  window.thankYou=function(src){
+    var nm=NAMES[S.idx % NAMES.length];
+    S.today++; S.total++;
+    S.idx++;
+    if(S.idx>=NAMES.length){ S.idx=0; S.loops++; save(K.loops,S.loops); }
+    save(K.today,S.today); save(K.date,today()); save(K.total,S.total); save(K.idx,S.idx);
+    revealName(nm);
+    var justMet = (S.today===S.target);
+    refresh();
+    if(justMet){ meetGoal(); }
+  };
+
+  function meetGoal(){
+    if(S.lastMet!==today()){                 // award the streak once per day
+      S.streak = (S.lastMet===yesterday()) ? (S.streak+1) : 1;
+      S.lastMet=today();
+      save(K.lastMet,S.lastMet); save(K.streak,S.streak);
+    }
+    refresh();
+    celebrate();
+  }
+
+  // ---------- celebration + confetti ----------
+  function celebrate(){
+    var who = S.name ? (S.name+", you") : "You";
+    document.getElementById("celMsg").textContent =
+      who+" thanked God "+S.target+" times today, and met "+S.target+" of His names! 🌙 Come back tomorrow!";
+    var cs=document.getElementById("celStreak");
+    if(S.streak>1){ cs.classList.remove("hide"); cs.textContent="🔥 "+S.streak+" days in a row!"; } else cs.classList.add("hide");
+    document.getElementById("celebrate").classList.add("show");
+    bigConfetti();
+  }
+  window.closeCelebrate=function(){ document.getElementById("celebrate").classList.remove("show"); };
+
+  var cv=document.getElementById("confetti"), ctx=cv.getContext("2d"), parts=[], raf=null;
+  function size(){ cv.width=window.innerWidth; cv.height=window.innerHeight; }
+  size(); window.addEventListener("resize",size);
+  var COLORS=["#FFC53D","#F59E0B","#33b98f","#FF8FB1","#57a7ff","#ffffff"];
+  function spawn(n){ for(var i=0;i<n;i++){ parts.push({x:Math.random()*cv.width,y:-20-Math.random()*cv.height*.3,r:5+Math.random()*7,c:COLORS[(Math.random()*COLORS.length)|0],vy:2.5+Math.random()*3.5,vx:-1.5+Math.random()*3,a:1,rot:Math.random()*6.28,vr:-.2+Math.random()*.4}); } if(!raf) tick(); }
+  function tick(){ ctx.clearRect(0,0,cv.width,cv.height);
+    for(var i=parts.length-1;i>=0;i--){ var p=parts[i]; p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr;p.a-=.005;
+      if(p.y>cv.height+30||p.a<=0){ parts.splice(i,1); continue; }
+      ctx.save();ctx.globalAlpha=Math.max(p.a,0);ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.c;ctx.fillRect(-p.r,-p.r*.6,p.r*2,p.r*1.2);ctx.restore(); }
+    if(parts.length) raf=requestAnimationFrame(tick); else { raf=null; ctx.clearRect(0,0,cv.width,cv.height); } }
+  function bigConfetti(){ if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches) return; spawn(180); }
+  function miniConfetti(){ if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches) return; spawn(50); }
+
+  // ---------- parent settings ----------
+  var gateSum=0;
+  window.openParent=function(){
+    var a=2+Math.floor(Math.random()*7), b=3+Math.floor(Math.random()*7); gateSum=a+b;
+    document.getElementById("gateQ").textContent="What is "+a+" + "+b+"?";
+    document.getElementById("gateA").value="";
+    document.getElementById("gate").classList.remove("hide");
+    document.getElementById("settings").classList.add("hide");
+    document.getElementById("parentScrim").classList.add("show");
+  };
+  window.closeParent=function(){ document.getElementById("parentScrim").classList.remove("show"); };
+  window.checkGate=function(){
+    if(parseInt(document.getElementById("gateA").value,10)===gateSum){
+      document.getElementById("gate").classList.add("hide");
+      document.getElementById("settings").classList.remove("hide");
+      chosen=S.target; buildChips(); document.getElementById("kidName").value=S.name||"";
+    } else { document.getElementById("gateA").value=""; document.getElementById("gateA").placeholder="Try again!"; }
+  };
+  var TARGETS=[5,10,20,30,50], chosen=S.target;
+  function buildChips(){
+    var host=document.getElementById("targetChips"); host.innerHTML="";
+    TARGETS.forEach(function(t){
+      var c=document.createElement("div"); c.className="chip"+(t===chosen?" sel":""); c.textContent=t;
+      c.onclick=function(){ chosen=t; buildChips(); };
+      host.appendChild(c);
+    });
+  }
+  window.saveSettings=function(){
+    S.target=chosen; save(K.target,S.target);
+    S.name=(document.getElementById("kidName").value||"").trim(); save(K.name,S.name);
+    closeParent(); refresh();
+  };
+  window.resetProgress=function(){
+    if(!confirm("Start the names journey over and clear today's count? (The daily goal stays.)")) return;
+    S.today=0; S.idx=0; S.total=0; S.loops=0; S.streak=0; S.lastMet="";
+    save(K.today,0); save(K.idx,0); save(K.total,0); save(K.loops,0); save(K.streak,0); save(K.lastMet,"");
+    elIdle.classList.remove("hide"); elShow.classList.add("hide");
+    closeParent(); refresh();
+  };
+
+  // ---------- WhatsApp share ----------
+  window.shareWhatsApp=function(){
+    var url="https://tboy2020.github.io/thank-and-trust-kids/";
+    var msg="🙏 *Thank You, God!* — a little app for kids.\n\nEvery day your child says “Thank You” to God, and each one meets one of His 1,000 names. Set a daily goal and watch them grow!\n\n“Out of the mouth of babes… thou hast perfected praise.” — Matthew 21:16\n\nTry it 👉 "+url+"\n\nGlory to God alone 🙌";
+    var wa="https://wa.me/?text="+encodeURIComponent(msg);
+    try{ window.open(wa,"_blank"); }catch(e){ location.href=wa; }
+  };
+
+  // ---------- voice: hear "thank you" ----------
+  var recog=null, listening=false, restartOK=false, seen={}, heardTimer=null;
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  var HEAR=["thank you","thankyou","thank u","thanks"];
+  function norm(s){ return (" "+String(s).toLowerCase()+" ").replace(/[^a-z\s]/g," ").replace(/\s+/g," "); }
+  function dropLast(p){ var t=p.replace(/^\s+|\s+$/g,""); var i=t.lastIndexOf(" "); return " "+(i>-1?t.slice(0,i):"")+" "; }
+  function countOcc(text){ var n=0; for(var j=0;j<HEAR.length;j++){ var key=" "+HEAR[j]+" ",idx=text.indexOf(key),g=0; while(idx>-1&&g<200){ n++; idx=text.indexOf(key,idx+key.length-1); g++; } } return n; }
+  var elHeard=document.getElementById("heard");
+  function showHeard(txt){ if(!listening){ elHeard.textContent=""; elHeard.classList.remove("show"); return; } txt=(txt||"").replace(/\s+/g," ").trim(); var w=txt.split(" "); if(w.length>6) txt="… "+w.slice(-6).join(" "); elHeard.textContent=txt?("“"+txt+"”"):"…I'm listening!"; elHeard.classList.add("show"); if(heardTimer)clearTimeout(heardTimer); heardTimer=setTimeout(function(){ if(listening) elHeard.textContent="…I'm listening!"; },1500); }
+
+  window.toggleVoice=function(){
+    if(!SR){ alert("Voice isn't available in this browser. Please open it in Chrome, or Safari on an iPhone, and allow the microphone. Tapping the big button always works!"); return; }
+    if(listening){ stopVoice(); } else { startVoice(); }
+  };
+  function startVoice(){
+    try{
+      seen={}; recog=new SR(); recog.continuous=true; recog.interimResults=true; recog.maxAlternatives=1; recog.lang="en-US";
+      recog.onresult=function(e){
+        var start=(typeof e.resultIndex==="number")?e.resultIndex:0;
+        for(var i=start;i<e.results.length;i++){
+          var res=e.results[i], raw=(res[0]&&res[0].transcript)||"", isF=!!res.isFinal;
+          showHeard(raw);
+          var text=isF?norm(raw):dropLast(norm(raw));
+          var occ=countOcc(text), had=seen[i]||0;
+          if(occ>had){ for(var k=0;k<(occ-had);k++){ thankYou("voice"); miniConfetti(); } seen[i]=occ; }
+        }
+      };
+      recog.onend=function(){ if(restartOK){ seen={}; try{recog.start();}catch(e){ setTimeout(function(){ if(restartOK){try{recog.start();}catch(x){}} },400); } } };
+      recog.onerror=function(ev){ if(ev.error==="not-allowed"||ev.error==="service-not-allowed"){ stopVoice(); alert("Please allow the microphone for this page (in Safari, not the home-screen icon). Tapping always works!"); } };
+      restartOK=true; recog.start(); listening=true;
+      document.getElementById("voiceTog").classList.add("on"); document.getElementById("voiceTog").textContent="● Listening…";
+      showHeard("");
+      // keep the screen awake while listening
+      try{ if("wakeLock" in navigator && document.visibilityState==="visible"){ navigator.wakeLock.request("screen").then(function(w){ wakeLock=w; }).catch(function(){}); } }catch(e){}
+    }catch(e){ alert("Could not start listening. Just tap the big button!"); }
+  }
+  var wakeLock=null;
+  function stopVoice(){
+    listening=false; restartOK=false; try{ if(recog){ recog.onend=null; recog.stop(); } }catch(e){}
+    try{ if(wakeLock){ wakeLock.release(); wakeLock=null; } }catch(e){}
+    document.getElementById("voiceTog").classList.remove("on"); document.getElementById("voiceTog").textContent="🎤 Listen";
+    showHeard("");
+  }
+  document.addEventListener("visibilitychange",function(){ if(!document.hidden && listening){ try{ if("wakeLock" in navigator){ navigator.wakeLock.request("screen").then(function(w){ wakeLock=w; }).catch(function(){}); } }catch(e){} } });
+  if(!SR){ document.getElementById("voiceTog").style.opacity=".6"; }
+
+  window.toggleRead=function(){ S.read=!S.read; save(K.read,S.read); refresh(); if(S.read) speak("Thank you God"); };
+
+  // init
+  refresh();
+})();
+</script>
+</body>
+</html>
